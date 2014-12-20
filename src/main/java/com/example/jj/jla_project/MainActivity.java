@@ -25,6 +25,8 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends Activity {
 
+
+
     TextView text1;
     TextView text2;
     Button btn_ans1, btn_ans2, btn_ans3;
@@ -46,7 +48,7 @@ public class MainActivity extends Activity {
     //public String[] instructions;
     public String imgName;
     public String musicName;*/
-    SingletonTest model = SingletonTest.getInstance();
+    SingletonTest model;// = SingletonTest.getInstance(); // UNCOMMENT THIS, TESTING RIGHT NOW THO
 
     String filename;
 
@@ -62,22 +64,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* Testing */
 
+
+        /* Testing */
         Intent TestIntent = new Intent (MainActivity.this, TestMod.class);
         startActivity(TestIntent);
-
-
-
+        finish();
         /* Testing */
 
 
-
-
-
-
-
-
+/*
             theme = MediaPlayer.create(MainActivity.this, R.raw.openingtitles);
 
             rl = (RelativeLayout) findViewById(R.id.RLLayout);
@@ -206,7 +202,7 @@ public class MainActivity extends Activity {
                     // And set Buttons to invisible
                     // else, set them as 1, 2, 3
 
-
+*/
                     //while (tappable) {
                     /*if (scene == 1 && tappable && notTyping) {
                         //tappable = false;
@@ -253,6 +249,8 @@ public class MainActivity extends Activity {
 
                     }
                 //}*/
+
+        /*
                 }
 
             });
@@ -298,6 +296,8 @@ public class MainActivity extends Activity {
         mHandler.removeCallbacks(characterAdder);
 
         mHandler.postDelayed(characterAdder, mDelay);
+
+        */
 
     }
 

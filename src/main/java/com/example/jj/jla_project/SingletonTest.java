@@ -61,9 +61,6 @@ package com.example.jj.jla_project;
 
 
         private volatile static SingletonTest uniqueInstance = null;
-
-
-
         private SingletonTest()   {
         }
 
