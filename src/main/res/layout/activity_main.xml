@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/editText"
             android:layout_gravity="center|left|top"
-            android:layout_above="@+id/imageLeft"
+            android:layout_above="@+id/leftImage"
             android:text="HelloUser"
             android:textSize="25dp"
             android:typeface="serif"
@@ -60,7 +60,7 @@
             android:typeface="serif"
             android:textColor="#ffffffff"
             android:layout_gravity="center|left"
-            android:layout_above="@+id/imageLeft" />
+            android:layout_above="@+id/leftImage" />
 
 
     </FrameLayout>
@@ -74,7 +74,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageLeft"
+            android:id="@+id/leftImage"
             android:contentDescription="image"
             android:layout_gravity="center|left"
             android:paddingLeft="280dp" />

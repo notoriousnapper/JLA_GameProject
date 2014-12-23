@@ -1,14 +1,24 @@
 package com.example.jj.jla_project;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.NumberKeyListener;
+import android.transition.Scene;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,25 +34,118 @@ public class TestMod extends Activity {
     BufferedReader B;
     InputStream I;
     String currentLine;
+    String savedState;    // The parsed combo of 3 numbers from DB
     Boolean conditionMet = false;
-
+    Tuple currentTuple;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_mod);
 
+        FrameLayout rLayout = (FrameLayout) findViewById (R.id.FrameLayout);
+        Resources res = getResources(); //resource handle
+        Drawable drawable = res.getDrawable(R.drawable.bedroom); //new Image that was added to the res folder
+
+        rLayout.setBackgroundDrawable(drawable);
+
+        ImageView left = (ImageView) findViewById(R.id.leftImage);
+        ImageView right = (ImageView) findViewById(R.id.rightImage);
+        ImageView middle = (ImageView) findViewById(R.id.middleImage);
+        ImageView background = (ImageView)findViewById(R.id.testBackGround);
+
+        left.setImageResource(R.drawable.pw1);
+        right.setImageResource(R.drawable.pw1);
+        middle.setImageResource(R.drawable.pw1);
+        //background.setImageResource(R.drawable.bedroom);
+
+
+
+
+        currentTuple = Tuple.getInstance();
+        //currentTuple.updateTuple(1, 1, 1);
+        System.err.println("THERE IS A TUPLE HERE: " + currentTuple.getTupleString());
+
+
+        // Testing Databases
+        DBAdapter DB = new DBAdapter(this);
+        DB.open();
+        DB.insertRow (2, 1 ,1, 1.0, 1.0, 1.0);
+       // DB.updateRow(1,1 ,5,1,1.0,1.0,1.9);
+        Cursor c = DB.queryAll(2,1,1);
+                c.moveToNext();
+
+        TextView t = (TextView) findViewById(R.id.savedStateView);
+        try {
+            savedState = ""+c.getInt(1) + "," + c.getInt(2) + "," + c.getInt(3);
+            t.setText(savedState);
+
+        }
+        catch(NullPointerException e)
+        {e.printStackTrace();}
+        //Cursor tempC = DB.queryStuff(1,1,1);
+
+
         I = getResources().openRawResource(R.raw.script);
         B = new BufferedReader(new InputStreamReader(I));
         testButton = (Button) findViewById(R.id.testButton);
 
-
         testView = (TextView) findViewById(R.id.testView);
+
+        /*
         try{currentLine = B.readLine();}
-        catch(IOException e){ e.printStackTrace();}
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+
+        currentTuple = Tuple.getInstance();
+        /* NEW TEST */
+
+        // Testing Singleton Code
+        currentTuple.updateTuple(1,5,1);
+        SceneSingleton Bob = SceneSingleton.getInstance();
+        Bob.currentTuple = currentTuple;
+        //BufferedReader test = new BufferedReader(new InputStreamReader(I));
+        Bob.connectBufferedReader(B);
+        System.err.println("Dan IS " + Bob.toString());
+        //Bob.themeMusic = "Stuff";
+        //String testLine = "stuff";
+        //try {
+       //testLine = test.readLine();}
+        //catch(IOException e){e.printStackTrace();}
+        //Bob.currentTuple.updateTuple(1,5,1);
+        Bob.pointToNext();
+        //Bob.popSceneSingleton();
+        String temp = "HEY";
+        try{
+        temp = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
+        System.err.println("Alex IS " + Bob.toString() + "next lines are: " + temp);
+
+        /* END TEST */
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Button OnSetListeners
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
+
+                currentTuple.updateTuple(1, 5, 1);
+                System.err.println("ROUNDS, CHECK IT OUT");
+                System.err.println("CurrentLine is: " + currentLine);
                 // Initialize Views
                 /* Methods & Classes Needed:
                  * 1. Databases (2) + Class
@@ -57,16 +160,19 @@ public class TestMod extends Activity {
                  * 5. Classes for handling database Updating/ Reading?  !!!
                  * 6. Should have invisible textbox & Views
                  */
-                String savedState = "1,5,1";
-                Boolean stateLoaded = currentLine.contains(savedState);
+                //String savedState = "1,5,1";
+
+                /*
+                Boolean stateLoaded = currentLine.contains("1,5,1");
+
 
                 try {
 
                     // LoadScene Method
 
-                    String searchLine = "$$"+ savedState;
+                    String searchLine = "$$"+ currentTuple.getTupleString();
                     System.out.println("Flag set!");
-
+                    System.err.println("CURRENT SEARCH LINE IS" +searchLine);
 
 
                     if (!stateLoaded && !conditionMet) {
@@ -74,8 +180,10 @@ public class TestMod extends Activity {
                     // If Line doesn't contain State, enter loop
                         while (!currentLine.contains(searchLine)) {
                             currentLine = B.readLine();
+                            //System.err.println(currentLine + "is the CURRENT LINE FOOL");
                         }
                         testView.setText(currentLine);
+
                         conditionMet = true;
                     }
 
@@ -84,7 +192,7 @@ public class TestMod extends Activity {
                         B.readLine();
                         // Commented Out Method = Normal Update
                         while (!currentLine.contains("$$")) {
-                            System.out.println(currentLine);
+                            System.err.println(currentLine);
                             currentLine = B.readLine();
                         }
                         // IF you reach main lines, parse
@@ -94,13 +202,24 @@ public class TestMod extends Activity {
                         try {
                             testView.setText(currentLine);
                             System.out.println(currentLine);
+
+
+                            // Update to NextTuple
+                            currentTuple.genericUpdate();
+                            currentLine = currentTuple.getTupleString();
+                                    System.err.println("New Tuple is " + currentTuple.getTupleString());
+
+
+
+
                         } catch (NullPointerException e) {
                             e.printStackTrace();
+
                         }
+
+
+
                     }
-
-
-
                 }catch(NullPointerException e)
                 {
                     e.printStackTrace();
@@ -116,8 +235,14 @@ public class TestMod extends Activity {
                 {
                     e.printStackTrace();
                 }
+                */
                         }
+
+
+
                     });
+
+
     }
 
 
