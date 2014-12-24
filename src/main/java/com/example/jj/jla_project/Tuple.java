@@ -30,6 +30,30 @@ public class Tuple {
        return this;
    }
 
+    public Tuple updateTuple (String newTupleString)
+    {
+        if(newTupleString.length()!=5) {
+            System.err.println("ERROR IN UPDATING TUPLE, LENGTH OF STRING INPUT NOT ENOUGH");
+
+        }
+        else
+        {
+            String temp[] = newTupleString.split(",");
+            int tempInts[] = {
+                        Integer.parseInt(temp[0]),
+                        Integer.parseInt(temp[1]),
+                        Integer.parseInt(temp[2]),
+
+            };
+        chapter = tempInts[0];
+        scene = tempInts[1];
+        path = tempInts[2];
+
+        }
+
+        return this;
+    }
+
    public String getTupleString ()
    {
        return "" + chapter +","+ scene + "," + path;
@@ -42,11 +66,13 @@ public class Tuple {
         scene = scene + 1;
     }
     // Normal Update without args = For Buttons/ Stuff
+    /*
     public void jumpUpdate(int sceneIncrement, int pathIncrement)
     {
         scene = scene + sceneIncrement;
         path = path + pathIncrement;
     }
+    */
 
 
 }

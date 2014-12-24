@@ -36,6 +36,7 @@ public class TestMod extends Activity {
     String currentLine;
     String savedState;    // The parsed combo of 3 numbers from DB
     Boolean conditionMet = false;
+    SceneSingleton Bob;
     Tuple currentTuple;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class TestMod extends Activity {
         //Cursor tempC = DB.queryStuff(1,1,1);
 
 
-        I = getResources().openRawResource(R.raw.script);
+        I = getResources().openRawResource(R.raw.script2);
         B = new BufferedReader(new InputStreamReader(I));
         testButton = (Button) findViewById(R.id.testButton);
 
@@ -104,11 +105,17 @@ public class TestMod extends Activity {
 
         // Testing Singleton Code
         currentTuple.updateTuple(1,5,1);
-        SceneSingleton Bob = SceneSingleton.getInstance();
-        Bob.currentTuple = currentTuple;
+       Bob = SceneSingleton.getInstance();
+        Bob.setcurrentTuple(currentTuple);
         //BufferedReader test = new BufferedReader(new InputStreamReader(I));
+
+
         Bob.connectBufferedReader(B);
-        System.err.println("Dan IS " + Bob.toString());
+
+
+        //System.err.println("Dan IS " + Bob.toString());
+
+
         //Bob.themeMusic = "Stuff";
         //String testLine = "stuff";
         //try {
@@ -116,30 +123,60 @@ public class TestMod extends Activity {
         //catch(IOException e){e.printStackTrace();}
         //Bob.currentTuple.updateTuple(1,5,1);
         Bob.pointToNext();
-        //Bob.popSceneSingleton();
+        Bob.popSceneSingleton(); // This automatically sets new pointer
         String temp = "HEY";
+        String temp1 = "HEY";
+        String temp2 = "HEY";
         try{
-        temp = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
-        System.err.println("Alex IS " + Bob.toString() + "next lines are: " + temp);
+        temp = Bob.bufferPtr.readLine();
+            temp1 = Bob.bufferPtr.readLine();
+            temp2 = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
+        //System.err.println("Alex IS " + Bob.toString() +
+        //        "next lines are: " + temp
+        //        + "next " + temp1 + "next " + temp2);
+/*
+        Bob.pointToNext();
+        Bob.popSceneSingleton();
+        //String tempa = "HEY";
+        //String tempb = "HEY";
+        //String tempc = "HEY";
+        try{
+            temp = Bob.bufferPtr.readLine();
+            temp1 = Bob.bufferPtr.readLine();
+            temp2 = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
+*/
+        //Bob.pointToNext();
+
+
+        try {
+            System.err.println("Alex IS " + Bob.toString() +
+                    "next lines are:  " + Bob.bufferPtr.readLine());
+
+            Bob.pointToNext();
+            Bob.popSceneSingleton();
+            Bob.pointToNext();
+            System.err.println("DANLI IS " + Bob.toString() +
+                    " and the next lines are:  " + Bob.bufferPtr.readLine()
+                    + " and " + Bob.bufferPtr.readLine() + " and " + Bob.bufferPtr.readLine());
+
+        }
+
+       catch (IOException e)
+       {e.printStackTrace();}
 
         /* END TEST */
-
-
-
-
-
-
-
-
-
-
-
-
 
         // Button OnSetListeners
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+             Bob.pointToNext();
+             Bob.popSceneSingleton();
+             testView.setText(Bob.toString());
+
+
 
                 /*
 

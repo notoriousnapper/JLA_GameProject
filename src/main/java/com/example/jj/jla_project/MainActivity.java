@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Scene;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +35,7 @@ public class MainActivity extends Activity {
     private int mIndex, mIndex2, mIndex3;
     private long mDelay = 15;//default delay
     private MediaPlayer mTypeSound;
+    private MediaPlayer sound;
     private MediaPlayer theme;
     BufferedReader buffr;
     String currentLine;
@@ -46,9 +49,9 @@ public class MainActivity extends Activity {
     //public String[] instructions;
     public String imgName;
     public String musicName;*/
-    SingletonTest model = SingletonTest.getInstance();
-
-
+    //SingletonTest model = SingletonTest.getInstance();
+    SceneSingleton model = SceneSingleton.getInstance();
+    Tuple currentTuple = Tuple.getInstance();
 
 
     SceneSingleton sceneSingleton = SceneSingleton.getInstance();
@@ -92,15 +95,18 @@ public class MainActivity extends Activity {
         final Button btn_ans2 = (Button) findViewById(R.id.ans2);
         final Button btn_ans3 = (Button) findViewById(R.id.ans3);
 
-        theme.start();
+        //theme.start();
         animateText("Hi! My Name is JJ!");
 
 
         try {
-            inputStream = getResources().openRawResource(R.raw.script);
+            inputStream = getResources().openRawResource(R.raw.script2);
             buffr = new BufferedReader(new InputStreamReader(inputStream));
             currentLine = buffr.readLine();
-            inputStream.close();
+            model.setcurrentTuple(currentTuple);
+            model.connectBufferedReader(buffr);
+
+            //inputStream.close();
         }
         catch (IOException e) {
             Log.e("message", e.getMessage());
@@ -121,12 +127,17 @@ public class MainActivity extends Activity {
 
      /* TESTING **********/
 
-
+/*
         Intent testIntent = new Intent(MainActivity.this, TestMod.class);
         startActivity(testIntent);
-
+*/
 
     /* TESTING */
+
+
+        // Very First Connection Initial Prep
+
+
 
 
 
@@ -135,6 +146,54 @@ public class MainActivity extends Activity {
         rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            model.pointToNext();
+                System.err.println("Dan's currentLine is " + model.getcurrentLine());
+            model.popSceneSingleton();
+                System.err.println("BACKGROUND AND THEME MUSIC ARE "
+                        + model.getthemeMusic() + " "
+                        + model.getbackgroundImg());
+
+
+
+
+
+
+
+                try {
+
+
+                    // Load Views
+                    background.setImageResource(getDrawable(MainActivity.this, model.getbackgroundImg()));
+                    // Load Audio Files
+                    //theme.stop(); // IF NEW THEME EXISTS ---> SET
+                    //esound.stop();
+
+                    theme = MediaPlayer.create(MainActivity.this,
+                            getAudio(MainActivity.this, model.getthemeMusic()));
+                    sound = MediaPlayer.create(MainActivity.this,
+                            getAudio(MainActivity.this, model.getSoundFile()));
+                    theme.start();
+
+
+
+
+                    imageL.setImageResource(getDrawable(MainActivity.this, model.getimgL()));
+                    imageR.setImageResource(getDrawable(MainActivity.this, model.getimgL()));
+
+
+                    if (model.gettext() != null)
+                    {
+                        animateText(model.gettext());
+                        mTypeSound.reset();
+                        mTypeSound.start();
+                    }
+
+
+
+                }
+                catch (NullPointerException e)
+                { e.printStackTrace();}
 
 
             // Take current Tuple, and load everything.
@@ -153,20 +212,7 @@ public class MainActivity extends Activity {
             // set new currentTuple -------> Singleton
             // set new Ptr to Buffr
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
 
 
                 // Start of Process
@@ -255,7 +301,7 @@ public class MainActivity extends Activity {
                 // Set values of button clicks to 0,
                 // And set Buttons to invisible
                 // else, set them as 1, 2, 3
-
+*/
 
                 //while (tappable) {
                     /*if (scene == 1 && tappable && notTyping) {
@@ -338,12 +384,15 @@ public class MainActivity extends Activity {
     //typewriting text
     public void animateText(CharSequence text) {
         mText = text;
-
         mIndex = 0;
         mIndex2 = 0;
         notTyping = false;//no tapping if string not finished typing
         text1.setText("");
         text2.setText("");
+
+        // Set clacking sound
+
+
 
         mHandler.removeCallbacks(characterAdder);
 
@@ -359,6 +408,10 @@ public class MainActivity extends Activity {
     public static int getDrawable(Context context, String name)
     {
         return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
+    }
+    public static int getAudio(Context context, String audio)
+    {
+        return context.getResources().getIdentifier(audio, "raw", context.getPackageName());
     }
 
     @Override

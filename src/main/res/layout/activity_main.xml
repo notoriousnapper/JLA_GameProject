@@ -19,13 +19,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingLeft="110dp"
-        android:paddingRight="110dp"
+        android:paddingLeft="150dp"
+        android:paddingRight="150dp"
         android:paddingBottom="10dp">
 
         <View
             android:layout_width="fill_parent"
-            android:layout_height="80dp"
+            android:layout_height="120dp"
             android:id="@+id/separator"
             android:visibility="visible"
 

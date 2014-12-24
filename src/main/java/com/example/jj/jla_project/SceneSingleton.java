@@ -18,9 +18,13 @@ public class SceneSingleton {
     final String SYM_IMGC = "_imgC:";
     final String SYM_TXT = "_txt:";
     final String SYM_BTN = "_btn:";
+    final String SYM_JMP= "_jmp:";
+    final String SYM_BTNEXISTS= "_*:";
+    final String JMP_NUM = "&";
+    final String SYM_BTNTEXT = "_^:";
 
     BufferedReader bufferPtr;
-    Tuple currentTuple;  // Only get newest
+    private Tuple currentTuple;  // Only get newest
 
     public String themeMusic;    // _m:
     private String soundFile;     // _s:
@@ -29,8 +33,12 @@ public class SceneSingleton {
     private String imgR;          // _imgR:
     private String imgC;          // _imgC:
     private String text;          // _txt:
-    private String button;        // _btn:
+    private boolean btnExists = false;
+    private String  btnTxt[];
+    private String  btnAdd[];
+
     private String currentLine;
+
 
 
 
@@ -41,14 +49,13 @@ public class SceneSingleton {
     {
             // Given the proper Ptr at location
             // Take Everything, and leave nothing!
-
             try {
-
                 currentLine = bufferPtr.readLine(); // Requires space between all segments
-                //System.out.println("Before ");
 
+                System.err.println("FLAG1");
                 if ( currentLine.contains( SYM_TM ) )
                 {
+                    //System.err.println("currentline is" + getcurrentLine() + "SUBSTRINGS ARE " + substringAfter(currentLine,SYM_TM));
                     themeMusic = substringAfter(currentLine,SYM_TM);
                     currentLine = bufferPtr.readLine();
                 }
@@ -78,11 +85,36 @@ public class SceneSingleton {
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_BTN ) ) {
-                    button = substringAfter(currentLine, SYM_BTN);
+
+                    btnExists = true;
+                    String temp = substringAfter(currentLine, SYM_BTN);
+                    btnAdd = currentLine.split(SYM_JMP); // Gets 3 Address
+                    bufferPtr.readLine(); // MAKE SURE THERE IS A TRANSFER ADDRESS ON SCRIPT
+
+                    // GRAB BUTTON TEXTS
                     currentLine = bufferPtr.readLine();
+                    temp = substringAfter(currentLine,SYM_BTNTEXT);
+                    btnTxt = currentLine.split(SYM_BTNTEXT);
+
+                    // RESET POINTERS
+                    currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
                 }
+                else{btnExists = false;} // CHECK TO MAKE SURE THIS FALLS THROUGH
 
 
+                if ( currentLine.contains( SYM_JMP ) ) {
+
+
+                    String parsedString = substringAfter(currentLine, JMP_NUM);
+                    currentTuple.updateTuple(parsedString); // PARSING ----> IPDATETIPLE
+                    //currentLine = bufferPtr.readLine();
+                }
+                //else if (there are button options)
+                else
+                {
+                    currentTuple.genericUpdate();
+                }
+                System.err.println("END FLAG1");
                 /*
                 {
                     String [] tokens = currentLine.split( "&" );
@@ -153,6 +185,11 @@ public class SceneSingleton {
 
     }
 
+    public void wipeOtherInfo()
+    {
+
+    }
+
 
 
 
@@ -168,17 +205,59 @@ public class SceneSingleton {
         + " " + imgR          // _imgR:
         + " " + imgC          // _imgC:
         + " " + text          // _txt:
-        + " " + button        // _btn: + ;
         + " currentTuple is " + currentTuple.getTupleString()
         + " and currentLine is " +
                 currentLine;
     }
 
 
+    /*
+     * Getter/SetterMethods
+     */
+
+
+    public String getthemeMusic()
+    {return this.themeMusic;}
+    public String getSoundFile()
+    {return this.soundFile;}
+    public String getbackgroundImg()
+    {return this.backgroundIMG;}
+    public String getimgL()
+    {return this.imgL;}
+    public String getimgR()
+    {return this.imgL;}
+    public String getimgC()
+    {return this.imgL;}
+
+    public String gettext()
+    {return this.text;}
+
+    public String getbtnAdd(int position) // starts from 0
+    {return btnAdd[position];}
+
+    public String getbtnTxt(int position) // starts from 0
+    {return btnTxt[position];}
+
+    public boolean getbtnExists()
+    {return this.btnExists;}
+
+    public String getcurrentLine()
+    {return this.currentLine;}
+
+    public Tuple getcurrentTuple()
+    {return this.currentTuple;}
+
+    public void setcurrentTuple(Tuple newTuple)
+    {currentTuple = newTuple;}
 
 
 
-    /* Helper Methods for String Parsing */
+
+    /*
+     * Helper Methods for String Parsing
+     *
+     *
+     */
 
     public static String substringAfter(String str, String separator) {
         if (isEmpty(str)) {
