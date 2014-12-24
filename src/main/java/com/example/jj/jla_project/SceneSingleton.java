@@ -78,6 +78,8 @@ public class SceneSingleton {
                 }
                 if ( currentLine.contains( SYM_IMGR ) ) {
                     imgR = substringAfter(currentLine, SYM_IMGR);
+                    System.err.println("The imgR is " + this.imgR);
+
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_IMGC ) ) {
@@ -237,7 +239,7 @@ public class SceneSingleton {
     public String getimgL()
     {return this.imgL;}
     public String getimgR()
-    {return this.imgL;}
+    {return this.imgR;}
     public String getimgC()
     {return this.imgL;}
 
