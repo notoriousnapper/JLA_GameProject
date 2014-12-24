@@ -20,6 +20,10 @@
             android:name=".TestMod"
             android:label="@string/title_activity_test_mod" >
         </activity>
+        <activity
+            android:name=".StartScreen"
+            android:label="@string/title_activity_start_screen" >
+        </activity>
     </application>
 
 </manifest>

@@ -21,7 +21,8 @@ public class SceneSingleton {
     final String SYM_JMP= "_jmp:";
     final String SYM_BTNEXISTS= "_*:";
     final String JMP_NUM = "&";
-    final String SYM_BTNTEXT = "_^:";
+    final String SYM_BTNTEXT = "_";
+
 
     BufferedReader bufferPtr;
     private Tuple currentTuple;  // Only get newest
@@ -50,9 +51,12 @@ public class SceneSingleton {
             // Given the proper Ptr at location
             // Take Everything, and leave nothing!
             try {
+                System.err.println("Starting CurrentLine is " + this.currentLine);
+                System.err.println("FLAG1");
                 currentLine = bufferPtr.readLine(); // Requires space between all segments
 
-                System.err.println("FLAG1");
+
+
                 if ( currentLine.contains( SYM_TM ) )
                 {
                     //System.err.println("currentline is" + getcurrentLine() + "SUBSTRINGS ARE " + substringAfter(currentLine,SYM_TM));
@@ -81,30 +85,37 @@ public class SceneSingleton {
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_TXT) ) {
+                    boolean temp = false;
+
+
                     text = substringAfter(currentLine, SYM_TXT);
                     currentLine = bufferPtr.readLine();
+                    System.err.println("First Line  Exists!!!!");
+                    if (currentLine.contains(SYM_BTN))
+                    {temp = true;
+                     currentLine = substringAfter(currentLine, SYM_BTN);}
+                    else
+                    { System.err.println("Middle Current Line is = " + currentLine);}
+                    if (temp)  {
+                        System.err.println("So does this one exists!!!!");
+                        setbtnExists(true);
+                        // TESTING
+                        //String temp = substringAfter(currentLine, SYM_BTN);
+                        btnAdd = currentLine.split(SYM_JMP); // Gets 3 Address
+                        bufferPtr.readLine(); // MAKE SURE THERE IS A TRANSFER ADDRESS ON SCRIPT
+
+                        // GRAB BUTTON TEXTS
+                        currentLine = bufferPtr.readLine();
+                        //temp = substringAfter(currentLine,SYM_BTNTEXT);
+                        btnTxt = currentLine.split(SYM_BTNTEXT);
+
+                        // RESET POINTERS
+                        currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
+                    }
+                    else{setbtnExists(false);} // CHECK TO MAKE SURE THIS FALLS THROUGH
+
                 }
-                if ( currentLine.contains( SYM_BTN ) ) {
-
-                    btnExists = true;
-                    String temp = substringAfter(currentLine, SYM_BTN);
-                    btnAdd = currentLine.split(SYM_JMP); // Gets 3 Address
-                    bufferPtr.readLine(); // MAKE SURE THERE IS A TRANSFER ADDRESS ON SCRIPT
-
-                    // GRAB BUTTON TEXTS
-                    currentLine = bufferPtr.readLine();
-                    temp = substringAfter(currentLine,SYM_BTNTEXT);
-                    btnTxt = currentLine.split(SYM_BTNTEXT);
-
-                    // RESET POINTERS
-                    currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
-                }
-                else{btnExists = false;} // CHECK TO MAKE SURE THIS FALLS THROUGH
-
-
-                if ( currentLine.contains( SYM_JMP ) ) {
-
-
+                if ( (currentLine.contains( SYM_JMP )) && (btnExists!= true ) ) {
                     String parsedString = substringAfter(currentLine, JMP_NUM);
                     currentTuple.updateTuple(parsedString); // PARSING ----> IPDATETIPLE
                     //currentLine = bufferPtr.readLine();
@@ -114,7 +125,7 @@ public class SceneSingleton {
                 {
                     currentTuple.genericUpdate();
                 }
-                System.err.println("END FLAG1");
+                System.err.println("Ending currentLine is " + currentLine);
                 /*
                 {
                     String [] tokens = currentLine.split( "&" );
@@ -198,6 +209,7 @@ public class SceneSingleton {
         //String temp = "not your stuff";
        // try {temp = bufferPtr.readLine();} catch(IOException e) { e.printStackTrace();}
         return "The SceneSingleton has "
+        + " " + " THE BUTTON " + btnExists + " "
         + " " + themeMusic    // _m:
         + " " + soundFile     // _s:
         + " " + backgroundIMG// _bgImg:
@@ -247,8 +259,13 @@ public class SceneSingleton {
     public Tuple getcurrentTuple()
     {return this.currentTuple;}
 
+
+
     public void setcurrentTuple(Tuple newTuple)
     {currentTuple = newTuple;}
+
+    public void setbtnExists(boolean b)
+    {btnExists = b;}
 
 
 

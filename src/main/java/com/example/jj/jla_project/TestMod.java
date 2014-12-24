@@ -103,50 +103,13 @@ public class TestMod extends Activity {
         currentTuple = Tuple.getInstance();
         /* NEW TEST */
 
-        // Testing Singleton Code
         currentTuple.updateTuple(1,5,1);
-       Bob = SceneSingleton.getInstance();
+        Bob = SceneSingleton.getInstance();
         Bob.setcurrentTuple(currentTuple);
         //BufferedReader test = new BufferedReader(new InputStreamReader(I));
-
-
         Bob.connectBufferedReader(B);
-
-
-        //System.err.println("Dan IS " + Bob.toString());
-
-
-        //Bob.themeMusic = "Stuff";
-        //String testLine = "stuff";
-        //try {
-       //testLine = test.readLine();}
-        //catch(IOException e){e.printStackTrace();}
-        //Bob.currentTuple.updateTuple(1,5,1);
         Bob.pointToNext();
         Bob.popSceneSingleton(); // This automatically sets new pointer
-        String temp = "HEY";
-        String temp1 = "HEY";
-        String temp2 = "HEY";
-        try{
-        temp = Bob.bufferPtr.readLine();
-            temp1 = Bob.bufferPtr.readLine();
-            temp2 = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
-        //System.err.println("Alex IS " + Bob.toString() +
-        //        "next lines are: " + temp
-        //        + "next " + temp1 + "next " + temp2);
-/*
-        Bob.pointToNext();
-        Bob.popSceneSingleton();
-        //String tempa = "HEY";
-        //String tempb = "HEY";
-        //String tempc = "HEY";
-        try{
-            temp = Bob.bufferPtr.readLine();
-            temp1 = Bob.bufferPtr.readLine();
-            temp2 = Bob.bufferPtr.readLine();} catch (IOException e){ e.printStackTrace();};
-*/
-        //Bob.pointToNext();
-
 
         try {
             System.err.println("Alex IS " + Bob.toString() +
@@ -159,10 +122,26 @@ public class TestMod extends Activity {
                     " and the next lines are:  " + Bob.bufferPtr.readLine()
                     + " and " + Bob.bufferPtr.readLine() + " and " + Bob.bufferPtr.readLine());
 
+
+
+
         }
 
        catch (IOException e)
        {e.printStackTrace();}
+
+
+
+        System.err.println("TUPLE TESTING" + currentTuple.getTupleString());
+        currentTuple.updateTuple("2,4,1");
+        System.err.println("TUPLE TESTING AGAIN" + currentTuple.getTupleString());
+        Bob.setcurrentTuple(currentTuple);
+        Bob.pointToNext();
+        Bob.popSceneSingleton();
+        System.err.println("WALA HERE IS " + Bob.toString());
+
+
+        //Bob.setbtnExists(true);
 
         /* END TEST */
 
@@ -171,10 +150,17 @@ public class TestMod extends Activity {
             @Override
             public void onClick(View v) {
 
+                if (Bob.getbtnExists())
+                {
+                    System.err.println("BUTTON EXISTS STUFF MWAHAHAHAH");
+                    testView.setText("SOMETHING HAPPENED");
+                }
+                else {
+                    Bob.pointToNext();
+                    Bob.popSceneSingleton();
+                    testView.setText(Bob.toString());
+                }
 
-             Bob.pointToNext();
-             Bob.popSceneSingleton();
-             testView.setText(Bob.toString());
 
 
 

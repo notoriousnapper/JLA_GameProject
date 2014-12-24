@@ -39,6 +39,9 @@ public class MainActivity extends Activity {
     private MediaPlayer theme;
     BufferedReader buffr;
     String currentLine;
+
+    View frame;
+
     //singleton fields
     private boolean tappable = true, notTyping = false;
     private String filepath;
@@ -83,8 +86,9 @@ public class MainActivity extends Activity {
         final ImageView imageL = (ImageView) findViewById(R.id.leftImage);
         final ImageView background = (ImageView) findViewById(R.id.imageView2);
         final ImageView imageR = (ImageView) findViewById(R.id.imageRight);
-        View frame = (View) findViewById(R.id.separator);//assigning id
+        frame = (View) findViewById(R.id.separator);//assigning id
         frame.getBackground().setAlpha(150);//set transparency of text frame
+
 
         //imageL.setImageResource(getDrawable(this, "apollo1"));
         background.setImageResource(R.drawable.bedroom1);
@@ -97,7 +101,6 @@ public class MainActivity extends Activity {
 
         //theme.start();
         animateText("Hi! My Name is JJ!");
-
 
         try {
             inputStream = getResources().openRawResource(R.raw.script2);
@@ -127,10 +130,11 @@ public class MainActivity extends Activity {
 
      /* TESTING **********/
 
-/*
+
         Intent testIntent = new Intent(MainActivity.this, TestMod.class);
         startActivity(testIntent);
-*/
+        finish();
+
 
     /* TESTING */
 
@@ -147,16 +151,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+            if (model.getbtnExists())
+            {
+                    // Do Nothing
+                System.err.println("I LOVE YOU ANGELICA " + model.getbtnTxt(0));
+            }
+            else {
+
             model.pointToNext();
                 System.err.println("Dan's currentLine is " + model.getcurrentLine());
             model.popSceneSingleton();
                 System.err.println("BACKGROUND AND THEME MUSIC ARE "
                         + model.getthemeMusic() + " "
                         + model.getbackgroundImg());
-
-
-
-
 
 
 
@@ -169,33 +176,48 @@ public class MainActivity extends Activity {
                     //theme.stop(); // IF NEW THEME EXISTS ---> SET
                     //esound.stop();
 
-                    theme = MediaPlayer.create(MainActivity.this,
-                            getAudio(MainActivity.this, model.getthemeMusic()));
-                    sound = MediaPlayer.create(MainActivity.this,
-                            getAudio(MainActivity.this, model.getSoundFile()));
-                    theme.start();
+
+                    try {
+                        theme = MediaPlayer.create(MainActivity.this,
+                                getAudio(MainActivity.this, model.getthemeMusic()));
+                        if (model.getthemeMusic() != null) {
+                            theme.start();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
 
+                    if (model.getSoundFile() != null)
+                        sound = MediaPlayer.create(MainActivity.this,
+                                getAudio(MainActivity.this, model.getSoundFile()));
 
 
                     imageL.setImageResource(getDrawable(MainActivity.this, model.getimgL()));
                     imageR.setImageResource(getDrawable(MainActivity.this, model.getimgL()));
 
 
-                    if (model.gettext() != null)
-                    {
+                    if ((!model.gettext().equals("")) && (model.gettext() != null)) {
+
+                        System.err.println(model.toString());
+
+                        frame.setVisibility(View.VISIBLE);
+                        text1.setVisibility(View.VISIBLE);
                         animateText(model.gettext());
                         mTypeSound.reset();
                         mTypeSound.start();
+                    } else {
+                        frame.setVisibility(View.GONE);
+                        text1.setVisibility(View.GONE);
                     }
 
 
-
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
-                catch (NullPointerException e)
-                { e.printStackTrace();}
 
 
+            }
             // Take current Tuple, and load everything.
             // Load Views from Singleton
             /* Load from SceneSingleton (1,1,1)
