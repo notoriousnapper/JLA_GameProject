@@ -78,8 +78,56 @@ _imgL:LOL
 _imgR:
 _imgC:
 _txt:Take That!
-_btn:2,4,2&3,3,1&3,4,1
+_btn:2,4,2&2,8,1&3,4,1
 _^:Hi_My name is Jesse_MWAHAHAHAHA
+
+$$2,4,2
+_m:apollotakethat
+_s:ding
+_bgImg:black
+_imgL:LOL
+_imgR:
+_imgC:
+_txt:Take That!
+_jmp:&2,6,1
+
+
+$$2,6,1
+_m:ding
+_s:ding
+_bgImg:black
+_imgL:pw123
+_imgR:
+_imgC:
+_txt:a
+
+$$2,7,1
+_m:ding
+_s:ding
+_bgImg:black
+_imgL:apollo1
+_imgR:
+_imgC:
+_txt:a
+
+$$2,8,1
+_m:ding
+_s:ding
+_bgImg:black
+_imgL:pw123
+_imgR:
+_imgC:
+_txt:a
+_jmp:&3,4,1
+
+$$3,4,1
+_m:typeshort
+_s:ding
+_bgImg:beach
+_imgL:
+_imgR:mia1
+_imgC:
+_txt:a
 
 
 

@@ -57,25 +57,13 @@ public class SceneSingleton {
             // Given the proper Ptr at location
             // Take Everything, and leave nothing!
             try {
-
+                System.err.println("*");
+                System.err.println("*");
+                System.err.println("Starting Tuple is "  + this.currentTuple.getTupleString());
                 System.err.println("Starting CurrentLine is " + this.currentLine);
                 System.err.println("FLAG1");
                 currentLine = bufferPtr.readLine(); // Requires space between all segments
                 System.err.println("2nd CurrentLine is " + this.currentLine);
-
-                /*
-                if (this.currentLine.equals(""))
-                {
-                    currentLine = bufferPtr.readLine();
-                    System.err.println("Something's wrong " + currentLine);
-                    currentLine = bufferPtr.readLine();
-                    System.err.println("Something's wrong " + currentLine);
-                    currentLine = bufferPtr.readLine();
-                    System.err.println("Something's wrong " + currentLine);
-                }
-                    */
-
-
 
 
                 if ( currentLine.contains( SYM_TM ) )
@@ -152,7 +140,7 @@ public class SceneSingleton {
                         System.err.println("Third BtnText is " + btnTxt[2]);
 
                         // RESET POINTERS
-                        currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
+                        //currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
                     }
                     else{setbtnExists(false);} // CHECK TO MAKE SURE THIS FALLS THROUGH
 

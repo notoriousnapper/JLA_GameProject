@@ -14,6 +14,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,11 +28,9 @@ import java.io.InputStreamReader;
 import static java.lang.Thread.sleep;
 
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements View.OnClickListener{
 
-    TextView text1;
-    TextView text2;
-    Button btn_ans1, btn_ans2, btn_ans3;
+
     private static final int maxNumPerLine = 65;
     private CharSequence mText;
     private int mIndex, mIndex2, mIndex3;
@@ -42,7 +41,21 @@ public class GameActivity extends Activity {
     BufferedReader buffr;
     String currentLine;
 
+
     View frame;
+    TextView text1;
+    TextView text2;
+    ImageView imageL;
+    ImageView background;
+    ImageView imageR;
+    Button btn_ans1;
+    Button btn_ans2;
+    Button btn_ans3;
+    ImageView imgBtn;
+    ImageView imgBt;
+    LinearLayout testLay;
+    FrameLayout frameCentral;
+
 
     //singleton fields
     private boolean tappable = true, notTyping = false;
@@ -65,29 +78,20 @@ public class GameActivity extends Activity {
     InputStream inputStream = null;
 
 
-
-
-
-
-
-
-
-
-
     private int scene = 1, lineNum = 1;
     RelativeLayout rl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gameactivity);
 
         theme = MediaPlayer.create(GameActivity.this, R.raw.openingtitles);
-
         rl = (RelativeLayout) findViewById(R.id.RLLayout);
 
-        final ImageView imageL = (ImageView) findViewById(R.id.leftImage);
-        final ImageView background = (ImageView) findViewById(R.id.imageView2);
-        final ImageView imageR = (ImageView) findViewById(R.id.imageRight);
+        imageL = (ImageView) findViewById(R.id.leftImage);
+        background = (ImageView) findViewById(R.id.imageView2);
+        imageR = (ImageView) findViewById(R.id.imageRight);
         frame = (View) findViewById(R.id.separator);//assigning id
         frame.getBackground().setAlpha(150);//set transparency of text frame
 
@@ -97,19 +101,20 @@ public class GameActivity extends Activity {
         text1 = (TextView) findViewById(R.id.editText);
         text2 = (TextView) findViewById(R.id.editText2);
         mTypeSound = MediaPlayer.create(text1.getContext(), R.raw.typeshort);
-        final Button btn_ans1 = (Button) findViewById(R.id.ans1);
-        final Button btn_ans2 = (Button) findViewById(R.id.ans2);
-        final Button btn_ans3 = (Button) findViewById(R.id.ans3);
-        final ImageView imgBtn = (ImageView) findViewById(R.id.imageBtn);
+        btn_ans1 = (Button) findViewById(R.id.ans1);
+        btn_ans2 = (Button) findViewById(R.id.ans2);
+        btn_ans3 = (Button) findViewById(R.id.ans3);
+        imgBtn = (ImageView) findViewById(R.id.imageBtn);
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPause();
 
             }
-            });
+        });
         // USE THIS
-        final LinearLayout testLay = (LinearLayout)findViewById(R.id.testLinear);
+        testLay = (LinearLayout) findViewById(R.id.testLinear);
+        frameCentral = (FrameLayout) findViewById(R.id.frameCentral);
         //testLay.setBackgroundResource(getDrawable(GameActivity.this, "beach"));
 
         //theme.start();
@@ -128,8 +133,7 @@ public class GameActivity extends Activity {
             model.connectBufferedReader(buffr);
 
             //inputStream.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("message", e.getMessage());
         }
 
@@ -137,6 +141,13 @@ public class GameActivity extends Activity {
          * Tap & Button Listeners Start Now
          *
          */
+
+
+
+        rl.setOnClickListener(this);
+        btn_ans1.setOnClickListener(this);
+        btn_ans2.setOnClickListener(this);
+        btn_ans3.setOnClickListener(this);
 
 
 
@@ -159,34 +170,73 @@ public class GameActivity extends Activity {
 
         // Very First Connection Initial Prep
 
-
-
-
-
-
+        /*
 
         rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-            if (model.getbtnExists())
-            {
+                if (model.getbtnExists()) {
+                    btn_ans1.setVisibility(View.VISIBLE);
+                    btn_ans2.setVisibility(View.VISIBLE);
+                    btn_ans3.setVisibility(View.VISIBLE);
+
+                    btn_ans1.setText(model.getbtnTxt(0));
+                    btn_ans2.setText(model.getbtnTxt(1));
+                    btn_ans3.setText(model.getbtnTxt(2));
+
+
                     // Do Nothing
-                System.err.println("I LOVE YOU ANGELICA " + model.getbtnTxt(0));
-            }
-            else {
+                    //System.err.println("I LOVE YOU ANGELICA " + model.getbtnTxt(0));
 
-            model.pointToNext();
+                    btn_ans1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //animateText(model.getbtnTxt(0));
+                            background.setImageResource(getDrawable(GameActivity.this, "black"));
+                            btn_ans1.setVisibility(View.INVISIBLE);
+                            btn_ans2.setVisibility(View.INVISIBLE);
+                            btn_ans3.setVisibility(View.INVISIBLE);
+
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(0));
+
+                            //model.waitingClick("3,0,1", buffr);
+
+                        }
+                    });
+
+                    btn_ans2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //animateText(model.getbtnTxt(1));
+                            background.setImageResource(getDrawable(GameActivity.this, "black"));
+                            btn_ans1.setVisibility(View.INVISIBLE);
+                            btn_ans2.setVisibility(View.INVISIBLE);
+                            btn_ans3.setVisibility(View.INVISIBLE);
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(1));
+                        }
+                    });
+
+                    btn_ans3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //animateText(model.getbtnTxt(2));
+                            background.setImageResource(getDrawable(GameActivity.this, "s3f4"));
+                            btn_ans1.setVisibility(View.INVISIBLE);
+                            btn_ans2.setVisibility(View.INVISIBLE);
+                            btn_ans3.setVisibility(View.INVISIBLE);
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(2));
+                        }
+                    });
+
+
+                }
+
+
+                model.pointToNext();
                 System.err.println("Dan's currentLine is " + model.getcurrentLine());
-            model.popSceneSingleton();
+                model.popSceneSingleton();
 
-               /*
-                System.err.println("BACKGROUND AND THEME MUSIC ARE "
-
-                        + model.getthemeMusic() + " "
-                        + model.getbackgroundImg());
-
-               */
 
                 try {
 
@@ -214,39 +264,18 @@ public class GameActivity extends Activity {
                                 getAudio(GameActivity.this, model.getSoundFile()));
 
 
-
-
-                    // TESTING
-                    /*
-                    LayoutParams leftParams = (LayoutParams) imageL.getLayoutParams();
-                    leftParams.width = 1000;
-                    leftParams.height = 1000;
-                    imageL.setLayoutParams(leftParams);
-
-
-
-                    LayoutParams rightParams = (LayoutParams) imageL.getLayoutParams();
-                    rightParams.width = 120;
-                    rightParams.height = 120;
-                    imageR.setLayoutParams(rightParams);
-                    */
-                    //TESTING
-
-
-
-
-                    if (model.getimgL()!=null) {
+                    if (model.getimgL() != null) {
                         imageL.setImageResource(getDrawable(GameActivity.this, model.getimgL()));
                         if (false)  // Eventually, set fadein boolean in model
-                        {}
-                        else {
+                        {
+                        } else {
                             imageL.setVisibility(View.GONE);
                             fadeInAndShowImage(imageL);
                         }
 
 
                     }
-                    if (model.getimgR()!=null){
+                    if (model.getimgR() != null) {
                         imageR.setImageResource(getDrawable(GameActivity.this, model.getimgR()));
                         imageR.setVisibility(View.GONE);
                         fadeInAndShowImage(imageR);
@@ -274,6 +303,8 @@ public class GameActivity extends Activity {
 
 
             }
+
+            */
             // Take current Tuple, and load everything.
             // Load Views from Singleton
             /* Load from SceneSingleton (1,1,1)
@@ -284,7 +315,6 @@ public class GameActivity extends Activity {
              *  Text
              *  Button T/F (= Tappable by itself)
              */
-
 
 
             // After Click, which is now,
@@ -382,7 +412,7 @@ public class GameActivity extends Activity {
                 // else, set them as 1, 2, 3
 */
 
-                //while (tappable) {
+            //while (tappable) {
                     /*if (scene == 1 && tappable && notTyping) {
                         //tappable = false;
 
@@ -427,53 +457,49 @@ public class GameActivity extends Activity {
                         animateText("Nice Beach!");
 
                     }
-                //}*/
-            }
+                //}
+
 
         });
+        */
 
 
+}
 
-
-
-
-
-
-
-    }
-
-    private void fadeOutAndHideImage(final ImageView img)
-    {
+    private void fadeOutAndHideImage(final ImageView img) {
         Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(1000);
-        fadeOut.setAnimationListener(new Animation.AnimationListener()
-        {
-            public void onAnimationEnd(Animation animation)
-            {
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationEnd(Animation animation) {
                 img.setVisibility(View.GONE);
             }
-            public void onAnimationRepeat(Animation animation) {}
-            public void onAnimationStart(Animation animation) {}
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationStart(Animation animation) {
+            }
         });
 
         img.startAnimation(fadeOut);
     }
 
-    private void fadeInAndShowImage(final ImageView img)
-    {
+    private void fadeInAndShowImage(final ImageView img) {
         Animation fadein = new AlphaAnimation(0, 2);
         fadein.setInterpolator(new AccelerateInterpolator());
         fadein.setDuration(1000);
 
-        fadein.setAnimationListener(new Animation.AnimationListener()
-        {
-            public void onAnimationEnd(Animation animation)
-            {
+        fadein.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationEnd(Animation animation) {
                 img.setVisibility(View.VISIBLE);
             }
-            public void onAnimationRepeat(Animation animation) {}
-            public void onAnimationStart(Animation animation) {}
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationStart(Animation animation) {
+            }
         });
 
         img.startAnimation(fadein);
@@ -484,22 +510,19 @@ public class GameActivity extends Activity {
     private Runnable characterAdder = new Runnable() {
         @Override
         public void run() {
-            if(mIndex <= maxNumPerLine )
-            {
+            if (mIndex <= maxNumPerLine) {
                 text1.setText(mText.subSequence(0, mIndex++));
                 mIndex2++;
-            }
-            else {
-                text2.setText(mText.subSequence(mIndex-1, mIndex2++));
+            } else {
+                text2.setText(mText.subSequence(mIndex - 1, mIndex2++));
                 lineNum++;
 
             }
             mTypeSound.start();
 
-            if(mIndex <= mText.length() && mIndex2 <= mText.length()) {
+            if (mIndex <= mText.length() && mIndex2 <= mText.length()) {
                 mHandler.postDelayed(characterAdder, mDelay);
-            }
-            else{
+            } else {
                 notTyping = true;//allow tap if string finish typing
             }
 
@@ -518,7 +541,6 @@ public class GameActivity extends Activity {
         // Set clacking sound
 
 
-
         mHandler.removeCallbacks(characterAdder);
 
         mHandler.postDelayed(characterAdder, mDelay);
@@ -531,14 +553,157 @@ public class GameActivity extends Activity {
     }
 
     //get drawable id
-    public static int getDrawable(Context context, String name)
-    {
+    public static int getDrawable(Context context, String name) {
         return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
     }
-    public static int getAudio(Context context, String audio)
-    {
+
+    public static int getAudio(Context context, String audio) {
         return context.getResources().getIdentifier(audio, "raw", context.getPackageName());
     }
+
+
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        int clickedView = v.getId();
+        boolean USES_BTN = model.getbtnExists();
+        boolean TAPCLICK = clickedView == R.id.RLLayout;
+
+
+        // If Button is tapped, or if tap button is tapped while buttons are not used
+        // MAY BE REDUNDANT, BUT MIGHT CHANGE LATER
+
+
+        //if (((TAPCLICK) && (!USES_BTN))
+        if (((TAPCLICK))
+                ||
+                (USES_BTN) && (!TAPCLICK))
+
+                {
+
+            if ((TAPCLICK)&&(!USES_BTN) || (!TAPCLICK)) {
+
+
+                if ((clickedView == R.id.ans1) ||
+                        (clickedView == R.id.ans2) ||
+                        (clickedView == R.id.ans3)) {
+
+
+                    switch(clickedView) {
+                        case R.id.ans1:
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(0));
+                            break;
+                        case R.id.ans2:
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(1));
+                            break;
+                        case R.id.ans3:
+                            model.getcurrentTuple().updateTuple(model.getbtnAdd(2));
+                            break;
+                    }
+
+                    // Hide Buttons, No matter ---> Unless you're leaving ---> Need to change if its
+                    // Multiple Buttons
+                    btn_ans1.setVisibility(View.INVISIBLE);
+                    btn_ans2.setVisibility(View.INVISIBLE);
+                    btn_ans3.setVisibility(View.INVISIBLE);
+
+                    // model.setbtnExists(false);
+                }
+
+
+
+            /* FALLS THROUGH TO THIS */
+
+                model.pointToNext();
+
+                System.err.println("Dan's currentLine is " + model.getcurrentLine());
+                model.popSceneSingleton();
+
+                if (model.getbtnExists()) {                     // Will have buttons if just populated
+                    btn_ans1.setVisibility(View.VISIBLE);
+                    btn_ans2.setVisibility(View.VISIBLE);
+                    btn_ans3.setVisibility(View.VISIBLE);
+
+                    btn_ans1.setText(model.getbtnTxt(0));
+                    btn_ans2.setText(model.getbtnTxt(1));
+                    btn_ans3.setText(model.getbtnTxt(2));
+                }
+
+
+                try {
+                    // BACKGROUND SETUP
+                    testLay.setBackgroundResource(getDrawable(GameActivity.this, model.getbackgroundImg()));
+                    try {
+
+                        // THEME SETUP
+                        theme = MediaPlayer.create(GameActivity.this,
+                                getAudio(GameActivity.this, model.getthemeMusic()));
+                        if (model.getthemeMusic() != null) {
+                            theme.start();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // SOUND SETUP
+                    if (model.getSoundFile() != null)
+                        sound = MediaPlayer.create(GameActivity.this,
+                                getAudio(GameActivity.this, model.getSoundFile()));
+
+
+                    // IMG SETUP
+                    if (model.getimgL() != null) {
+                        imageL.setImageResource(getDrawable(GameActivity.this, model.getimgL()));
+                        if (false)  // Eventually, set fadein boolean in model
+                        {
+                        } else {
+                            imageL.setVisibility(View.GONE);
+                            fadeInAndShowImage(imageL);
+                        }
+                    }
+                    if (model.getimgR() != null) {
+                        imageR.setImageResource(getDrawable(GameActivity.this, model.getimgR()));
+                        imageR.setVisibility(View.GONE);
+                        fadeInAndShowImage(imageR);
+                    }
+
+
+                    if ((!model.gettext().equals("")) && (model.gettext() != null)) {
+
+                        System.err.println(model.toString());
+
+                        frame.setVisibility(View.VISIBLE);
+                        text1.setVisibility(View.VISIBLE);
+                        animateText(model.gettext());
+                        mTypeSound.reset();
+                        mTypeSound.start();
+                    } else {
+                        frame.setVisibility(View.GONE);
+                        text1.setVisibility(View.GONE);
+                    }
+
+
+
+                    // Setting them off each time for now (Logic above works, so this is quick fix)
+
+
+
+
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+
 
     @Override
     protected void onPause(){
