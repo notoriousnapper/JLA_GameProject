@@ -24,6 +24,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 
 public class TestMod extends Activity {
@@ -38,6 +40,8 @@ public class TestMod extends Activity {
     Boolean conditionMet = false;
     SceneSingleton Bob;
     Tuple currentTuple;
+
+    //Hashtable
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,120 +149,35 @@ public class TestMod extends Activity {
 
         /* END TEST */
 
+
         // Button OnSetListeners
         testButton.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View v) {
 
-                if (Bob.getbtnExists())
-                {
-                    System.err.println("BUTTON EXISTS STUFF MWAHAHAHAH");
-                    testView.setText("SOMETHING HAPPENED");
-                }
-                else {
-                    Bob.pointToNext();
-                    Bob.popSceneSingleton();
-                    testView.setText(Bob.toString());
-                }
+
+                HashMap<Integer, String> cache2 = new HashMap<Integer, String>();
+
+
+                Tuple testTuple = Tuple.getInstance();
+                testTuple.updateTuple(1,12,1);
+                cache2.put(testTuple.hashCode(), "Jesse");
+
+                System.err.println("This versus this is "  + testTuple.getTupleInt());
+                testTuple.genericUpdate();
+                testTuple.updateTuple(1,12,1);
+
+                testView.setText("HEY LOOKIE HERE " + cache2.get(testTuple.getTupleInt()));
+                        // Need to override Tuples ---> To describe instance of classes, rather than
+                        // Pointing to
+                System.err.println("This versus this is "  + testTuple.getTupleInt());
 
 
 
 
-                /*
-
-                currentTuple.updateTuple(1, 5, 1);
-                System.err.println("ROUNDS, CHECK IT OUT");
-                System.err.println("CurrentLine is: " + currentLine);
-                // Initialize Views
-                /* Methods & Classes Needed:
-                 * 1. Databases (2) + Class
-                 *      i. Very First row is for temporary running memory
-                 * 2. StoreCurrentState
-                 * 3. Singleton
-                 *      i. nextState
-                 *      ii. currentState
-                 *      iii. updateState( );   //Else, no parameter == just goes up
-                 *      iv.
-                 * 4. loadState ();  Loads A given saved state --> Pulled from database, or recent
-                 * 5. Classes for handling database Updating/ Reading?  !!!
-                 * 6. Should have invisible textbox & Views
-                 */
-                //String savedState = "1,5,1";
-
-                /*
-                Boolean stateLoaded = currentLine.contains("1,5,1");
-
-
-                try {
-
-                    // LoadScene Method
-
-                    String searchLine = "$$"+ currentTuple.getTupleString();
-                    System.out.println("Flag set!");
-                    System.err.println("CURRENT SEARCH LINE IS" +searchLine);
-
-
-                    if (!stateLoaded && !conditionMet) {
-                        System.err.println("Inside While Loop");
-                    // If Line doesn't contain State, enter loop
-                        while (!currentLine.contains(searchLine)) {
-                            currentLine = B.readLine();
-                            //System.err.println(currentLine + "is the CURRENT LINE FOOL");
-                        }
-                        testView.setText(currentLine);
-
-                        conditionMet = true;
-                    }
-
-                    else {
-                        System.err.println("Flag set!");
-                        B.readLine();
-                        // Commented Out Method = Normal Update
-                        while (!currentLine.contains("$$")) {
-                            System.err.println(currentLine);
-                            currentLine = B.readLine();
-                        }
-                        // IF you reach main lines, parse
-                        currentLine = currentLine.replaceAll("\\$", "");
-                        // Regexp requires escape chars "\\"
-                        // Write Mini-Parsing Method for commas
-                        try {
-                            testView.setText(currentLine);
-                            System.out.println(currentLine);
-
-
-                            // Update to NextTuple
-                            currentTuple.genericUpdate();
-                            currentLine = currentTuple.getTupleString();
-                                    System.err.println("New Tuple is " + currentTuple.getTupleString());
-
-
-
-
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-
-                        }
-
-
-
-                    }
-                }catch(NullPointerException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e) {
-                    Log.e("message", e.getMessage());
-                    e.printStackTrace();
-                }
-                try {
-                    I.close();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                */
                         }
 
 
@@ -267,6 +186,7 @@ public class TestMod extends Activity {
 
 
     }
+
 
 
     @Override

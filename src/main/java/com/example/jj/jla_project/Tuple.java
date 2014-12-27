@@ -22,8 +22,23 @@ public class Tuple {
         return uniqueInstance;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int start = 0;
+        return this.getTupleInt();
+
+    }
+
    public Tuple updateTuple (int newchap, int newscene, int newpath)
    {
+
        chapter = newchap;
        scene = newscene;
        path = newpath;
@@ -58,7 +73,14 @@ public class Tuple {
    {
        return "" + chapter +","+ scene + "," + path;
    }
+    public int getTupleInt(){           // THIS ONLY RETURNS SCENE AND PATH, WHERE PATH WILL < 10
 
+        int tens = this.scene*10;
+        int ones = this.path*1;
+
+        return tens + ones;
+
+    }
 
    // Normal Update without args = Increment +1
     public void genericUpdate()

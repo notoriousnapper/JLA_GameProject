@@ -4,7 +4,7 @@
 
 $$1,1,1
 _m:openingtitles
-_s:ding	
+_s:ding
 _bgImg:beach
 _imgL:mia1
 _imgR:
@@ -37,10 +37,9 @@ _bgImg:beach
 _imgL:pw123
 _imgR:
 _imgC:
-_txt: TWERK IT, WORK IT
+_txt: &2,1,1
 
-
-$$1,5,1\
+$$1,5,1
 _m:ding
 _s:ding
 _bgImg:bedroom
@@ -81,39 +80,6 @@ _imgC:
 _txt:Take That!
 _btn:2,4,2&3,3,1&3,4,1
 _^:Hi_My name is Jesse_MWAHAHAHAHA
-
-
-$$2,5,1
-_m:LOL
-_s:LOL
-_bgImg:LOL
-_imgL:LOL
-_imgR:
-_imgC:
-_txt:aaaa
-
-
-$$3,3,1
-_m:LOL
-_s:LOL
-_bgImg:LOL
-_imgL:LOL
-_imgR:
-_imgC:
-_txt:
-
-
-
-$$3,4,1
-_m:LOL
-_s:LOL
-_bgImg:LOL
-_imgL:LOL
-_imgR:
-_imgC:
-_txt:
-
-
 
 
 

@@ -36,7 +36,7 @@
                 android:contentDescription="image"
                 android:layout_gravity="center|left"
                 android:paddingRight="10dp"
-                android:padding="25dp"
+                android:paddingLeft="100dp"
                 android:accessibilityLiveRegion="1"
                 android:layout_weight="1"/>
 
@@ -111,7 +111,16 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></FrameLayout>
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:paddingLeft = "50dp"
+            android:paddingRight = "50dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/imageBtn"
+            android:layout_gravity="right|top" />
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"

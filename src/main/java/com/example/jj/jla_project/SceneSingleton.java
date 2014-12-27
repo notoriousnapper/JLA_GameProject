@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.PriorityQueue;
 
 /**
  * Created by jj on 12/21/14.
@@ -19,13 +20,15 @@ public class SceneSingleton {
     final String SYM_TXT = "_txt:";
     final String SYM_BTN = "_btn:";
     final String SYM_JMP= "_jmp:";
-    final String SYM_BTNEXISTS= "_*:";
+    final String SYM_BTNTEXTMARK= "_^:";
     final String JMP_NUM = "&";
     final String SYM_BTNTEXT = "_";
 
 
     BufferedReader bufferPtr;
     private Tuple currentTuple;  // Only get newest
+    //private EventHandler; // For events/ moving on
+    //private SceneDetails; // To encapsulate all the Extra scene Info, including text speed/
 
     public String themeMusic;    // _m:
     private String soundFile;     // _s:
@@ -37,6 +40,9 @@ public class SceneSingleton {
     private boolean btnExists = false;
     private String  btnTxt[];
     private String  btnAdd[];
+
+
+
 
     private String currentLine;
 
@@ -51,65 +57,99 @@ public class SceneSingleton {
             // Given the proper Ptr at location
             // Take Everything, and leave nothing!
             try {
+
                 System.err.println("Starting CurrentLine is " + this.currentLine);
                 System.err.println("FLAG1");
                 currentLine = bufferPtr.readLine(); // Requires space between all segments
+                System.err.println("2nd CurrentLine is " + this.currentLine);
+
+                /*
+                if (this.currentLine.equals(""))
+                {
+                    currentLine = bufferPtr.readLine();
+                    System.err.println("Something's wrong " + currentLine);
+                    currentLine = bufferPtr.readLine();
+                    System.err.println("Something's wrong " + currentLine);
+                    currentLine = bufferPtr.readLine();
+                    System.err.println("Something's wrong " + currentLine);
+                }
+                    */
+
 
 
 
                 if ( currentLine.contains( SYM_TM ) )
                 {
-                    //System.err.println("currentline is" + getcurrentLine() + "SUBSTRINGS ARE " + substringAfter(currentLine,SYM_TM));
+
+                    System.err.println("currentline is" + getcurrentLine());
                     themeMusic = substringAfter(currentLine,SYM_TM);
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_S ) ) {
-
+                    System.err.println("currentline is" + getcurrentLine());
                     soundFile = substringAfter(currentLine, SYM_S);
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_BGIMG ) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     backgroundIMG = substringAfter(currentLine, SYM_BGIMG);
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_IMGL) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     imgL = substringAfter(currentLine, SYM_IMGL);
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_IMGR ) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     imgR = substringAfter(currentLine, SYM_IMGR);
                     System.err.println("The imgR is " + this.imgR);
 
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_IMGC ) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     imgC = substringAfter(currentLine, SYM_IMGC);
                     currentLine = bufferPtr.readLine();
                 }
                 if ( currentLine.contains( SYM_TXT) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     boolean temp = false;
 
 
                     text = substringAfter(currentLine, SYM_TXT);
                     currentLine = bufferPtr.readLine();
-                    System.err.println("First Line  Exists!!!!");
+                    //System.err.println("Line before Symbol Check Exists!!!!");
                     if (currentLine.contains(SYM_BTN))
-                    {temp = true;
-                     currentLine = substringAfter(currentLine, SYM_BTN);}
+                    {
+                        System.err.println("currentline is" + getcurrentLine());
+                        temp = true;
+                       }
                     else
-                    { System.err.println("Middle Current Line is = " + currentLine);}
+                    { //System.err.println("Middle Current Line is = " + currentLine);
+                    }
                     if (temp)  {
-                        System.err.println("So does this one exists!!!!");
+                        System.err.println("Button Text Parsing Reached!");
                         setbtnExists(true);
                         // TESTING
+                        currentLine = substringAfter(currentLine, SYM_BTN);
+                        System.err.println("currentline is " + getcurrentLine());
                         //String temp = substringAfter(currentLine, SYM_BTN);
-                        btnAdd = currentLine.split(SYM_JMP); // Gets 3 Address
-                        bufferPtr.readLine(); // MAKE SURE THERE IS A TRANSFER ADDRESS ON SCRIPT
+                        btnAdd = currentLine.split(JMP_NUM); // Gets 3 Address
+                        System.err.println("First Add is " + btnAdd[0]);
+                        System.err.println("Second Add is " + btnAdd[1]);
+                        System.err.println("Third Add is " + btnAdd[2]);
 
                         // GRAB BUTTON TEXTS
+                        // FIRST, SUBSTRING THEM
                         currentLine = bufferPtr.readLine();
+                        currentLine = substringAfter(currentLine, SYM_BTNTEXTMARK);
+                        System.err.println("currentline is" + getcurrentLine());
                         //temp = substringAfter(currentLine,SYM_BTNTEXT);
                         btnTxt = currentLine.split(SYM_BTNTEXT);
+                        System.err.println("First BtnText is " + btnTxt[0]);
+                        System.err.println("Second BtnText is " + btnTxt[1]);
+                        System.err.println("Third BtnText is " + btnTxt[2]);
 
                         // RESET POINTERS
                         currentLine = bufferPtr.readLine(); // In the case of button, need to manually change tuple.
@@ -118,29 +158,20 @@ public class SceneSingleton {
 
                 }
                 if ( (currentLine.contains( SYM_JMP )) && (btnExists!= true ) ) {
+                    System.err.println("currentline is" + getcurrentLine());
                     String parsedString = substringAfter(currentLine, JMP_NUM);
                     currentTuple.updateTuple(parsedString); // PARSING ----> IPDATETIPLE
+                    System.err.println("Ending currentLine is " + currentLine);
                     //currentLine = bufferPtr.readLine();
                 }
                 //else if (there are button options)
                 else
                 {
                     currentTuple.genericUpdate();
+                    System.err.println("Ending currentLine is " + currentLine);
                 }
-                System.err.println("Ending currentLine is " + currentLine);
-                /*
-                {
-                    String [] tokens = currentLine.split( "&" );
-                    imgName = tokens[1];
-                    currentLine = bufferPtr.readLine();
-                }
-                if ( currentLine.contains( "MUS" ) )
-                {
-                    String[] tokens = currentLine.split( "&" );
-                    musicName = tokens[1];
-                    currentLine = buffr.readLine();
-                }
-                */
+
+
             } catch ( Exception e ) { e.printStackTrace(); }
 
     }
@@ -165,7 +196,7 @@ public class SceneSingleton {
         try {
 
             while (!(currentLine.contains(
-                    currentTuple.getTupleString())))
+                    "$$"+currentTuple.getTupleString())))
             {
                 currentLine = bufferPtr.readLine();
             }
@@ -210,7 +241,10 @@ public class SceneSingleton {
     {
         //String temp = "not your stuff";
        // try {temp = bufferPtr.readLine();} catch(IOException e) { e.printStackTrace();}
-        return "The SceneSingleton has "
+
+
+        String scene =
+         "The SceneSingleton has "
         + " " + " THE BUTTON " + btnExists + " "
         + " " + themeMusic    // _m:
         + " " + soundFile     // _s:
@@ -222,6 +256,17 @@ public class SceneSingleton {
         + " currentTuple is " + currentTuple.getTupleString()
         + " and currentLine is " +
                 currentLine;
+
+      /*
+        if (btnExists)
+
+        {
+            scene = scene + " the buttons are: " + btnTxt[0] + " " +btnTxt[1];
+        }
+
+
+        */
+        return scene;
     }
 
 

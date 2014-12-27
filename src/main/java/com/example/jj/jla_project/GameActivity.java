@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,7 +79,7 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.gameactivity);
 
         theme = MediaPlayer.create(GameActivity.this, R.raw.openingtitles);
 
@@ -98,16 +100,28 @@ public class GameActivity extends Activity {
         final Button btn_ans1 = (Button) findViewById(R.id.ans1);
         final Button btn_ans2 = (Button) findViewById(R.id.ans2);
         final Button btn_ans3 = (Button) findViewById(R.id.ans3);
+        final ImageView imgBtn = (ImageView) findViewById(R.id.imageBtn);
+        imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPause();
 
+            }
+            });
         // USE THIS
         final LinearLayout testLay = (LinearLayout)findViewById(R.id.testLinear);
         //testLay.setBackgroundResource(getDrawable(GameActivity.this, "beach"));
 
         //theme.start();
+
+
+        imgBtn.setImageResource(getDrawable(GameActivity.this, "inventory"));
+
+
         animateText("Hi! My Name is JJ!");
 
         try {
-            inputStream = getResources().openRawResource(R.raw.script2);
+            inputStream = getResources().openRawResource(R.raw.scripttest);
             buffr = new BufferedReader(new InputStreamReader(inputStream));
             currentLine = buffr.readLine();
             model.setcurrentTuple(currentTuple);
@@ -165,11 +179,14 @@ public class GameActivity extends Activity {
             model.pointToNext();
                 System.err.println("Dan's currentLine is " + model.getcurrentLine());
             model.popSceneSingleton();
+
+               /*
                 System.err.println("BACKGROUND AND THEME MUSIC ARE "
+
                         + model.getthemeMusic() + " "
                         + model.getbackgroundImg());
 
-
+               */
 
                 try {
 
@@ -215,11 +232,24 @@ public class GameActivity extends Activity {
                     */
                     //TESTING
 
+
+
+
                     if (model.getimgL()!=null) {
                         imageL.setImageResource(getDrawable(GameActivity.this, model.getimgL()));
+                        if (false)  // Eventually, set fadein boolean in model
+                        {}
+                        else {
+                            imageL.setVisibility(View.GONE);
+                            fadeInAndShowImage(imageL);
+                        }
+
+
                     }
                     if (model.getimgR()!=null){
                         imageR.setImageResource(getDrawable(GameActivity.this, model.getimgR()));
+                        imageR.setVisibility(View.GONE);
+                        fadeInAndShowImage(imageR);
                     }
 
 
@@ -412,6 +442,43 @@ public class GameActivity extends Activity {
 
     }
 
+    private void fadeOutAndHideImage(final ImageView img)
+    {
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(1000);
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                img.setVisibility(View.GONE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        img.startAnimation(fadeOut);
+    }
+
+    private void fadeInAndShowImage(final ImageView img)
+    {
+        Animation fadein = new AlphaAnimation(0, 2);
+        fadein.setInterpolator(new AccelerateInterpolator());
+        fadein.setDuration(1000);
+
+        fadein.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                img.setVisibility(View.VISIBLE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        img.startAnimation(fadein);
+    }
+
     //running texts
     private Handler mHandler = new Handler();
     private Runnable characterAdder = new Runnable() {
@@ -458,6 +525,7 @@ public class GameActivity extends Activity {
 
     }
 
+
     public void setCharacterDelay(long millis) {
         mDelay = millis;
     }
@@ -474,11 +542,23 @@ public class GameActivity extends Activity {
 
     @Override
     protected void onPause(){
+        super.onPause();
         if(this.isFinishing()){
             theme.stop();
             mTypeSound.stop();
         }
+
+        Intent invIntent = new Intent (GameActivity.this, Inventory.class);
+        startActivity(invIntent);
+
+
+
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

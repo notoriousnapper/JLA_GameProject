@@ -25,9 +25,11 @@ public class MainActivity extends Activity {
         startBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-
-
+/*
+                Intent startGame = new Intent(MainActivity.this, TestMod.class);
+                startActivity(startGame);
+                finish();
+*/
 
             Intent startGame = new Intent(MainActivity.this, GameActivity.class);
             startActivity(startGame);
