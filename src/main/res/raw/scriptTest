@@ -6,7 +6,7 @@ $$1,1,1
 _m:openingtitles
 _s:ding
 _bgImg:beach
-_imgL:mia1
+_imgL:apollocenter1
 _imgR:
 _imgC:
 _txt: Angelica Grunloh!  I object to your existence!
@@ -15,35 +15,44 @@ _txt: Angelica Grunloh!  I object to your existence!
 $$1,2,1
 _m:apolloobjection
 _s:ding
-_bgImg:beach
-_imgL:pw123
-_imgR:mia1
+_bgImg:annietest1
+_imgL:apollocenter1
+_imgR:apollocenter1
 _imgC:
+_animBG:SHK
+_animIMGL:OUT
 _txt: I object to yours!
+
+
 
 $$1,3,1
 _m:typeshort
 _s:ding
 _bgImg:beach
-_imgL:pw123
-_imgR:
+_imgL:apollocenter1
+_imgR:apollocenter1
 _imgC:
+_animBG:SHK
+_animIMGL:OUT
 _txt: MWAHAHAHAH
+
 
 $$1,4,1
 _m:typewriter
 _s:ding
 _bgImg:beach
-_imgL:pw123
+_imgL:
 _imgR:
 _imgC:
+_animBG:SHK
+_animIMGL:IN
 _txt: &2,1,1
 
 $$1,5,1
 _m:ding
 _s:ding
 _bgImg:bedroom
-_imgL:pw123
+_imgL:
 _imgR:
 _imgC:
 _txt:c
@@ -53,9 +62,10 @@ $$2,1,1
 _m:ding
 _s:ding
 _bgImg:black
-_imgL:pw123
+_imgL:
 _imgR:
 _imgC:
+_animIMGL:IN
 _txt:a
 
 
@@ -66,6 +76,7 @@ _bgImg:beach
 _imgL:pw123
 _imgR:
 _imgC:
+_animIMGL:IN
 _txt:HOLD IT!
 _jmp:&2,4,1
 
@@ -74,9 +85,10 @@ $$2,4,1
 _m:apollotakethat
 _s:ding
 _bgImg:black
-_imgL:LOL
+_imgL:apollocenter1
 _imgR:
 _imgC:
+_animIMGL:OUT
 _txt:Take That!
 _btn:2,4,2&2,8,1&3,4,1
 _^:Hi_My name is Jesse_MWAHAHAHAHA
@@ -125,7 +137,7 @@ _m:typeshort
 _s:ding
 _bgImg:beach
 _imgL:
-_imgR:mia1
+_imgR:miar
 _imgC:
 _txt:a
 

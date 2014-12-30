@@ -4,28 +4,20 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.method.NumberKeyListener;
-import android.transition.Scene;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 
 public class TestMod extends Activity {
@@ -47,23 +39,21 @@ public class TestMod extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_mod);
 
-        FrameLayout rLayout = (FrameLayout) findViewById (R.id.FrameLayout);
+        FrameLayout rLayout = (FrameLayout) findViewById(R.id.FrameLayout);
         Resources res = getResources(); //resource handle
         Drawable drawable = res.getDrawable(R.drawable.bedroom); //new Image that was added to the res folder
 
         rLayout.setBackgroundDrawable(drawable);
 
-        ImageView left = (ImageView) findViewById(R.id.leftImage);
+        ImageView left = (ImageView) findViewById(R.id.imageLeft);
         ImageView right = (ImageView) findViewById(R.id.rightImage);
         ImageView middle = (ImageView) findViewById(R.id.middleImage);
-        ImageView background = (ImageView)findViewById(R.id.testBackGround);
+        ImageView background = (ImageView) findViewById(R.id.testBackGround);
 
         left.setImageResource(R.drawable.pw1);
         right.setImageResource(R.drawable.pw1);
         middle.setImageResource(R.drawable.pw1);
         //background.setImageResource(R.drawable.bedroom);
-
-
 
 
         currentTuple = Tuple.getInstance();
@@ -74,19 +64,19 @@ public class TestMod extends Activity {
         // Testing Databases
         DBAdapter DB = new DBAdapter(this);
         DB.open();
-        DB.insertRow (2, 1 ,1, 1.0, 1.0, 1.0);
-       // DB.updateRow(1,1 ,5,1,1.0,1.0,1.9);
-        Cursor c = DB.queryAll(2,1,1);
-                c.moveToNext();
+        DB.insertRow(2, 1, 1, 1.0, 1.0, 1.0);
+        // DB.updateRow(1,1 ,5,1,1.0,1.0,1.9);
+        Cursor c = DB.queryAll(2, 1, 1);
+        c.moveToNext();
 
         TextView t = (TextView) findViewById(R.id.savedStateView);
         try {
-            savedState = ""+c.getInt(1) + "," + c.getInt(2) + "," + c.getInt(3);
+            savedState = "" + c.getInt(1) + "," + c.getInt(2) + "," + c.getInt(3);
             t.setText(savedState);
 
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-        catch(NullPointerException e)
-        {e.printStackTrace();}
         //Cursor tempC = DB.queryStuff(1,1,1);
 
 
@@ -107,7 +97,7 @@ public class TestMod extends Activity {
         currentTuple = Tuple.getInstance();
         /* NEW TEST */
 
-        currentTuple.updateTuple(1,5,1);
+        currentTuple.updateTuple(1, 5, 1);
         Bob = SceneSingleton.getInstance();
         Bob.setcurrentTuple(currentTuple);
         //BufferedReader test = new BufferedReader(new InputStreamReader(I));
@@ -127,13 +117,9 @@ public class TestMod extends Activity {
                     + " and " + Bob.bufferPtr.readLine() + " and " + Bob.bufferPtr.readLine());
 
 
-
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-       catch (IOException e)
-       {e.printStackTrace();}
-
 
 
         System.err.println("TUPLE TESTING" + currentTuple.getTupleString());
@@ -154,7 +140,6 @@ public class TestMod extends Activity {
         testButton.setOnClickListener(new View.OnClickListener() {
 
 
-
             @Override
             public void onClick(View v) {
 
@@ -163,30 +148,26 @@ public class TestMod extends Activity {
 
 
                 Tuple testTuple = Tuple.getInstance();
-                testTuple.updateTuple(1,12,1);
+                testTuple.updateTuple(1, 12, 1);
                 cache2.put(testTuple.hashCode(), "Jesse");
 
-                System.err.println("This versus this is "  + testTuple.getTupleInt());
+                System.err.println("This versus this is " + testTuple.getTupleInt());
                 testTuple.genericUpdate();
-                testTuple.updateTuple(1,12,1);
+                testTuple.updateTuple(1, 12, 1);
 
                 testView.setText("HEY LOOKIE HERE " + cache2.get(testTuple.getTupleInt()));
-                        // Need to override Tuples ---> To describe instance of classes, rather than
-                        // Pointing to
-                System.err.println("This versus this is "  + testTuple.getTupleInt());
+                // Need to override Tuples ---> To describe instance of classes, rather than
+                // Pointing to
+                System.err.println("This versus this is " + testTuple.getTupleInt());
 
 
+            }
 
 
-                        }
-
-
-
-                    });
+        });
 
 
     }
-
 
 
     @Override

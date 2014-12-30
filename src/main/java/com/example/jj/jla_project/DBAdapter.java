@@ -39,14 +39,14 @@ public class DBAdapter {
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
     public static final int COL_CHAPTER = 1;
-    public static final int COL_SCENE= 2;
+    public static final int COL_SCENE = 2;
     public static final int COL_PATH = 3;
     public static final int COL_CREDIT = 4;
     public static final int COL_DEBIT = 5;
     public static final int COL_SAVINGS = 6;
 
 
-    public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_CHAPTER, KEY_SCENE, KEY_PATH,
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_CHAPTER, KEY_SCENE, KEY_PATH,
             KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
 
     // DB info: it's name, and the table we are using (just one).
@@ -59,7 +59,7 @@ public class DBAdapter {
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
                     + " (" + KEY_ROWID + " integer primary key autoincrement, "
-			
+
 			/*
 			 * CHANGE 2:
 			 */
@@ -107,8 +107,7 @@ public class DBAdapter {
 
     // Add a new set of values to the database.
     public long insertRow(Integer chapter, Integer scene, Integer path, Double credit, Double debit,
-                          Double savings)
-    {
+                          Double savings) {
 		/*
 		 * CHANGE 3:
 		 */
@@ -146,7 +145,7 @@ public class DBAdapter {
     // Return all data in the database.
     public Cursor getAllRows() {
         String where = null;
-        Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
@@ -167,7 +166,7 @@ public class DBAdapter {
     // Get a specific row (by rowId)
     public Cursor getRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
-        Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
@@ -212,38 +211,36 @@ public class DBAdapter {
         // Create row's data:
 // Testing, uncomment other stuff
         ContentValues newValues = new ContentValues();
-        if (Account.equals(KEY_CREDIT))
-        {
+        if (Account.equals(KEY_CREDIT)) {
             newAmount = amount + temp.getDouble(COL_CREDIT);
-            newValues.put(KEY_CREDIT, newAmount);}
-        else if (Account.equals(KEY_DEBIT))
-        {
+            newValues.put(KEY_CREDIT, newAmount);
+        } else if (Account.equals(KEY_DEBIT)) {
             newAmount = amount + temp.getDouble(COL_DEBIT);
-            newValues.put(KEY_DEBIT, newAmount);}
-        else if (Account.equals(KEY_SAVINGS))
-        {
+            newValues.put(KEY_DEBIT, newAmount);
+        } else if (Account.equals(KEY_SAVINGS)) {
             newAmount = amount + temp.getDouble(COL_SAVINGS);
-            newValues.put(KEY_SAVINGS, newAmount);}
-        else
-        {
+            newValues.put(KEY_SAVINGS, newAmount);
+        } else {
 
-            newValues.put(KEY_CREDIT, amount + amount);}
+            newValues.put(KEY_CREDIT, amount + amount);
+        }
 
         // Insert it into the database.
-        boolean eventTrue =  db.update(DATABASE_TABLE, newValues, where, null) != 0;
+        boolean eventTrue = db.update(DATABASE_TABLE, newValues, where, null) != 0;
         temp.close(); // Close Cursor
 
         // Checking if update happened
 
         if (!(eventTrue))  // If update failed
-        {newAmount = -1.0;}
+        {
+            newAmount = -1.0;
+        }
 
         return newAmount;
 
     }
 
-    public Cursor queryStuff(String username, String password)
-    {
+    public Cursor queryStuff(String username, String password) {
         String[] columns = {KEY_CHAPTER, KEY_SCENE, KEY_PATH, KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
         //DATABASE_TABLE + "." + KEY_USER + " = \'" + a + "\' AND " + DATABASE_TABLE + "." + KEY_PASSWORD + " = \'" + b + "\'"
         return db.query(DATABASE_TABLE,
@@ -254,23 +251,21 @@ public class DBAdapter {
 
     }
 
-    public Cursor queryAll(Integer chapter, Integer scene, Integer path)
-    {
+    public Cursor queryAll(Integer chapter, Integer scene, Integer path) {
         String[] columns = {KEY_ROWID, KEY_CHAPTER, KEY_SCENE, KEY_PATH, KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
         //DATABASE_TABLE + "." + KEY_USER + " = \'" + a + "\' AND " + DATABASE_TABLE + "." + KEY_PASSWORD + " = \'" + b + "\'"
         return db.query(DATABASE_TABLE,
                 columns,
-                KEY_CHAPTER + " = " + chapter + " AND " + KEY_SCENE + " = " + scene + " AND " + KEY_PATH +" = " + path
+                KEY_CHAPTER + " = " + chapter + " AND " + KEY_SCENE + " = " + scene + " AND " + KEY_PATH + " = " + path
                 ,
                 null, null, null, null, null);
 
     }
 
-    public Cursor queryAll(long row_id)
-    {
+    public Cursor queryAll(long row_id) {
         String[] columns = {KEY_ROWID, KEY_CHAPTER, KEY_SCENE, KEY_PATH, KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
         //DATABASE_TABLE + "." + KEY_USER + " = \'" + a + "\' AND " + DATABASE_TABLE + "." + KEY_PASSWORD + " = \'" + b + "\'"
-        Cursor temp =  db.query(DATABASE_TABLE,
+        Cursor temp = db.query(DATABASE_TABLE,
                 columns,
                 KEY_ROWID + " = \'" + row_id + "\'"
                 ,
@@ -281,9 +276,8 @@ public class DBAdapter {
 
     }
 
-    public Cursor queryUser(String user)
-    {
-        String[] columns = {KEY_ROWID,KEY_CHAPTER, KEY_SCENE, KEY_PATH, KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
+    public Cursor queryUser(String user) {
+        String[] columns = {KEY_ROWID, KEY_CHAPTER, KEY_SCENE, KEY_PATH, KEY_CREDIT, KEY_DEBIT, KEY_SAVINGS};
         //DATABASE_TABLE + "." + KEY_USER + " = \'" + a + "\' AND " + DATABASE_TABLE + "." + KEY_PASSWORD + " = \'" + b + "\'"
         Cursor temp = db.query(DATABASE_TABLE,
                 columns,
@@ -296,8 +290,7 @@ public class DBAdapter {
     }
 
     //transfer the money, return true if success.
-    public boolean transferBetween(String user1, String user2, String acctType1, String acctType2, double amount)
-    {
+    public boolean transferBetween(String user1, String user2, String acctType1, String acctType2, double amount) {
 
         int credit_row = 3;
         int debit_row = 4;
@@ -310,19 +303,19 @@ public class DBAdapter {
 
         Cursor secondCursor = queryUser(user2);
         rowID2 = secondCursor.getLong(0);
-        double balance1 = 0,balance2 = 0, newBalance1 = 0, newBalance2 = 0;
+        double balance1 = 0, balance2 = 0, newBalance1 = 0, newBalance2 = 0;
 
         //retrieve user1 balance
         if (acctType1.equals(KEY_CREDIT))
             balance1 = firstCursor.getDouble(credit_row);
-        else if(acctType1.equals(KEY_DEBIT))
+        else if (acctType1.equals(KEY_DEBIT))
             balance1 = firstCursor.getDouble(debit_row);
 
         if (balance1 < amount) return false;
         //retrieve user2 balance
         if (acctType2.equals(KEY_CREDIT))
             balance2 = firstCursor.getDouble(credit_row);
-        else if(acctType2.equals(KEY_DEBIT))
+        else if (acctType2.equals(KEY_DEBIT))
             balance2 = firstCursor.getDouble(debit_row);
 
         newBalance1 = balance1 - amount;
@@ -333,12 +326,6 @@ public class DBAdapter {
     }
 
 
-
-
-
-
-
-
     //	Private Helper Classes:
     /////////////////////////////////////////////////////////////////////
 
@@ -346,8 +333,7 @@ public class DBAdapter {
      * Private class which handles database creation and upgrading.
      * Used to handle low-level database access.
      */
-    private static class DatabaseHelper extends SQLiteOpenHelper
-    {
+    private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }

@@ -36,7 +36,7 @@ public class Typewriter extends TextView {
         public void run() {
             setText(mText.subSequence(0, mIndex++));
             mtypeSound.start();
-            if(mIndex <= mText.length()) {
+            if (mIndex <= mText.length()) {
                 mHandler.postDelayed(characterAdder, mDelay);
             }
         }
