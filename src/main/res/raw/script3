@@ -1,0 +1,27 @@
+$$1,1,1
+_m:openingtitles
+_s:ding
+_bgImg:beach
+_imgL:mia1
+_imgR:
+_imgC:mia1
+_txt: Angelica Grunloh!  I object to your existence!
+
+
+$$1,2,1MARK
+_m:apolloobjection
+_s:ding
+_bgImg:annietest1
+_imgL:pw123
+_imgR:mia1
+_imgC:mia1
+_txt: I object to yours!
+
+$$1,3,1RESET
+_m:typeshort
+_s:ding
+_bgImg:beach
+_imgL:pw123
+_imgR:
+_imgC:mia1
+_txt: MWAHAHAHAH

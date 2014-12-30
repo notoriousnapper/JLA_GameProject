@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.startscreen);
 
         final MediaPlayer sound = MediaPlayer.create(MainActivity.this,
-                getAudio(MainActivity.this, "button1"));
+                getAudio(MainActivity.this, "menuselect1"));
 
         //handler.postDelayed(runnable, 100);
 
@@ -36,8 +36,6 @@ public class MainActivity extends Activity {
 
                 sound.start();
 /*
-
-
                 Intent startGame = new Intent(MainActivity.this, TestMod.class);
                 startActivity(startGame);
                 finish();

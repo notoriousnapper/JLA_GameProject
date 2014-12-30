@@ -1,10 +1,13 @@
 package com.example.jj.jla_project;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +35,7 @@ public class TestMod extends Activity {
     Boolean conditionMet = false;
     SceneSingleton Bob;
     Tuple currentTuple;
+    int stopAtTen = 0;
 
     //Hashtable
     @Override
@@ -80,7 +84,7 @@ public class TestMod extends Activity {
         //Cursor tempC = DB.queryStuff(1,1,1);
 
 
-        I = getResources().openRawResource(R.raw.script2);
+        I = getResources().openRawResource(R.raw.script3);
         B = new BufferedReader(new InputStreamReader(I));
         testButton = (Button) findViewById(R.id.testButton);
 
@@ -97,9 +101,9 @@ public class TestMod extends Activity {
         currentTuple = Tuple.getInstance();
         /* NEW TEST */
 
-        currentTuple.updateTuple(1, 5, 1);
+        //currentTuple.updateTuple(1, 5, 1);
         Bob = SceneSingleton.getInstance();
-        Bob.setcurrentTuple(currentTuple);
+       // Bob.setcurrentTuple(currentTuple);
         //BufferedReader test = new BufferedReader(new InputStreamReader(I));
         Bob.connectBufferedReader(B);
         Bob.pointToNext();
@@ -109,9 +113,9 @@ public class TestMod extends Activity {
             System.err.println("Alex IS " + Bob.toString() +
                     "next lines are:  " + Bob.bufferPtr.readLine());
 
-            Bob.pointToNext();
-            Bob.popSceneSingleton();
-            Bob.pointToNext();
+            //Bob.pointToNext();
+            //Bob.popSceneSingleton();
+            //Bob.pointToNext();
             System.err.println("DANLI IS " + Bob.toString() +
                     " and the next lines are:  " + Bob.bufferPtr.readLine()
                     + " and " + Bob.bufferPtr.readLine() + " and " + Bob.bufferPtr.readLine());
@@ -135,7 +139,27 @@ public class TestMod extends Activity {
 
         /* END TEST */
 
+/*
+        SoundItem item1 = new SoundItem(R.raw.apolloobjection, 1);
+        SoundItem item2 = new SoundItem(R.raw.openingtitles,1);
+        SoundThread backgroundThread = new SoundThread();
+*/
 
+
+
+        //MORE TESTING
+
+        try {
+            B.mark(10);
+        }
+        catch(IOException e)
+        {e.printStackTrace();}
+
+
+        //TESTING THREADS
+        MediaPlayer important = MediaPlayer.create(TestMod.this,
+                getAudio(TestMod.this, "openingtitles"));
+        important.start();
         // Button OnSetListeners
         testButton.setOnClickListener(new View.OnClickListener() {
 
@@ -143,6 +167,94 @@ public class TestMod extends Activity {
             @Override
             public void onClick(View v) {
 
+               // try {
+                stopAtTen++;
+/* Start Thread Testing */
+                    Thread backgroundThread = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            try {
+
+
+                                if (stopAtTen<4) {
+                                    int amount = 0;
+                                    Thread.sleep(amount);
+                                    MediaPlayer theme = MediaPlayer.create(TestMod.this,
+                                            getAudio(TestMod.this, "buttonselected"));
+                                    theme.start();
+
+
+                                }
+
+                                else if (stopAtTen>4 && stopAtTen<8){
+                                    int amount = 0;
+                                    Thread.sleep(amount);
+                                    MediaPlayer theme = MediaPlayer.create(TestMod.this,
+                                            getAudio(TestMod.this, "apolloobjection"));
+                                    theme.start();
+
+
+                                }
+                                else
+                                {
+                                    Thread.sleep(500);
+                                    MediaPlayer theme = MediaPlayer.create(TestMod.this,
+                                            getAudio(TestMod.this, "thundersound"));
+                                    theme.start();
+
+                                }
+                                //b.putString("My Key", "My Value:
+
+                                // "+String.valueOf(i));
+// send message to the handler with the current message handler
+
+                                //handler.sendMessage(handler.obtainMessage());
+                            } catch (Exception e) {
+                                Log.v("Error", e.toString());
+                            }
+                        }
+
+                    });
+
+                    backgroundThread.start();
+/* End Thread Testing */
+
+
+/*
+                    String temp = "sthelse";
+
+                    String curr = Bob.getBufferPtr().readLine();
+                    Bob.setMark(curr.contains("MARK"));
+                    Bob.setReset(curr.contains("RESET"));
+                if (Bob.getReset()) {
+                    B.reset();
+                    temp = B.readLine();
+                    testView.setText("FINISHED! ORIGINAL MARK " + temp);
+                    stopAtTen=0;
+
+                }
+                else {
+                        if(Bob.getMark())
+                        {
+                            Bob.getBufferPtr().mark(10);
+                        }
+
+
+
+                        testView.setText(curr + " iteration number " + stopAtTen);
+
+                }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+
+                }
+
+                */
+                /*
 
                 HashMap<Integer, String> cache2 = new HashMap<Integer, String>();
 
@@ -159,6 +271,7 @@ public class TestMod extends Activity {
                 // Need to override Tuples ---> To describe instance of classes, rather than
                 // Pointing to
                 System.err.println("This versus this is " + testTuple.getTupleInt());
+                */
 
 
             }
@@ -167,7 +280,13 @@ public class TestMod extends Activity {
         });
 
 
+
+
     }
+
+public static int getAudio(Context context, String audio) {
+        return context.getResources().getIdentifier(audio, "raw", context.getPackageName());
+        }
 
 
     @Override

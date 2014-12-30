@@ -288,6 +288,12 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         (clickedView == R.id.ans2) ||
                         (clickedView == R.id.ans3)) {
 
+                    // TEMPORARY FIX
+                    theme = MediaPlayer.create(GameActivity.this,
+                            getAudio(GameActivity.this, "buttonselected"));
+                    theme.start();
+
+                    // TEMPORARY FIX
 
                     switch (clickedView) {
                         case R.id.ans1:
@@ -496,16 +502,18 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     // Text Presentation Setup
                     if ((!model.gettext().equals("")) && (model.gettext() != null)) {
 
+
+                        System.err.println("FLAG3: NAMELEFT = " + model.getNameLeft());
                         // Caption for Character name
                         if (model.getNameLeft()!=null)
                         {
-
                             nameframe.setVisibility(View.VISIBLE);
                             nameTxt.setVisibility(View.VISIBLE);
                             nameTxt.setText(model.getNameLeft());
                             nameTxt.bringToFront();  // Brings to front
-                            // Reset Null
+                            //RESET NameLeft
                             model.setNameLeft(null);
+
                         }
                         else{
                             nameframe.setVisibility(View.INVISIBLE);
@@ -523,6 +531,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     } else {
                         frame.setVisibility(View.INVISIBLE);
                         text1.setVisibility(View.INVISIBLE);
+                        nameframe.setVisibility(View.INVISIBLE);
+                        nameTxt.setVisibility(View.INVISIBLE);
+
                     }
                     // Setting them off each time for now (Logic above works, so this is quick fix)
                 } catch (NullPointerException e) {

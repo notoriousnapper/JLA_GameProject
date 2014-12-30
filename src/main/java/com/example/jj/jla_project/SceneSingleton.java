@@ -29,6 +29,9 @@ public class SceneSingleton {
     final String ANIM_IMGR = "_animIMGR:";
     final String ANIM_IMGC = "_animIMGC:";
 
+    final String SYM_MARK = "MARK";
+    final String SYM_RESET = "RESET";
+
 
     BufferedReader bufferPtr;
     private Tuple currentTuple;  // Only get newest
@@ -52,6 +55,8 @@ public class SceneSingleton {
 
     private String nameTxtLeft;
     private String currentLine;
+    private boolean mark;
+    private boolean reset;
 
 
     private volatile static SceneSingleton uniqueInstance = null;
@@ -61,13 +66,30 @@ public class SceneSingleton {
         // Given the proper Ptr at location
         // Take Everything, and leave nothing!
         try {
+
+            if (currentLine.contains("MARK")) // defaults mark
+            {
+                mark = true;
+                reset = false;
+            }
+            else if (currentLine.contains("RESET"))
+            {
+                reset = true;
+                mark = false;
+            }
+            else {
+                reset = false;
+                mark = false;
+
+            }
+
             System.err.println("*");
             System.err.println("*");
             System.err.println("Starting Tuple is " + this.currentTuple.getTupleString());
             System.err.println("Starting CurrentLine is " + this.currentLine);
-            System.err.println("FLAG1");
+            //System.err.println("FLAG1");
             currentLine = bufferPtr.readLine(); // Requires space between all segments
-            System.err.println("2nd CurrentLine is " + this.currentLine);
+            //System.err.println("2nd CurrentLine is " + this.currentLine);
 
 
             if (currentLine.contains(SYM_TM)) {
@@ -106,6 +128,8 @@ public class SceneSingleton {
                 nameTxtLeft = substringAfter(currentLine, SYM_NAMETEXTLEFT);
                 currentLine = bufferPtr.readLine();
             }
+            else{nameTxtLeft=null;}
+
             if (currentLine.contains(ANIM_BG)) {
                 System.err.println("currentline is" + getcurrentLine());
                 bganimation = substringAfter(currentLine, ANIM_BG);
@@ -249,21 +273,24 @@ public class SceneSingleton {
         //String temp = "not your stuff";
         // try {temp = bufferPtr.readLine();} catch(IOException e) { e.printStackTrace();}
 
-
-        String scene =
-                "The SceneSingleton has "
-                        + " " + " THE BUTTON " + btnExists + " "
-                        + " " + themeMusic    // _m:
-                        + " " + soundFile     // _s:
-                        + " " + backgroundIMG// _bgImg:
-                        + " " + imgL          // _imgL:
-                        + " " + imgR          // _imgR:
-                        + " " + imgC          // _imgC:
-                        + " " + text          // _txt:
-                        + " currentTuple is " + currentTuple.getTupleString()
-                        + " and currentLine is " +
-                        currentLine;
-
+        String scene = "Heheh";
+        try {
+             scene =
+                    "The SceneSingleton has "
+                            + " " + " THE BUTTON " + btnExists + " "
+                            + " " + themeMusic    // _m:
+                            + " " + soundFile     // _s:
+                            + " " + backgroundIMG// _bgImg:
+                            + " " + imgL          // _imgL:
+                            + " " + imgR          // _imgR:
+                            + " " + imgC          // _imgC:
+                            + " " + text          // _txt:
+                            + " currentTuple is " + currentTuple.getTupleString()
+                            + " and currentLine is " +
+                            currentLine;
+        }
+        catch(NullPointerException e)
+        {e.printStackTrace();}
       /*
         if (btnExists)
 
@@ -345,6 +372,9 @@ public class SceneSingleton {
     public String getIMGCAnimation() {
         return this.imgcanimation;
     }
+    public boolean getMark(){ return this.mark;}
+    public boolean getReset(){ return this.reset;}
+    public BufferedReader getBufferPtr(){return this.bufferPtr;}
 
 
     public void setcurrentTuple(Tuple newTuple) {
@@ -363,6 +393,8 @@ public class SceneSingleton {
     public void setIMGRAnimation(String input){imgranimation = input;}
     public void setIMGCAnimation(String input){imgcanimation = input;}
     public void setNameLeft(String input){this.nameTxtLeft = input;}
+    public void setMark(boolean b) {this.mark = b;}
+    public void setReset(boolean b) {this.reset = b;}
     /*
      * Helper Methods for String Parsing
      *
