@@ -53,6 +53,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     TextView nameTxt;
 
 
+    ImageView imgObj;
     ImageView imageL;
     ImageView imageC;
     ImageView imageR;
@@ -95,6 +96,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         theme = MediaPlayer.create(GameActivity.this, R.raw.typewriter);
         rl = (RelativeLayout) findViewById(R.id.RLLayout);
 
+        imgObj = (ImageView) findViewById(R.id.imgObj);
         imageL = (ImageView) findViewById(R.id.imageLeft);
         imageR = (ImageView) findViewById(R.id.imageRight);
         imageC = (ImageView) findViewById(R.id.imageCenter);
@@ -102,7 +104,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
         frame = (View) findViewById(R.id.separator);//assigning id
         nameframe = (View) findViewById(R.id.nameframe);
-        frame.getBackground().setAlpha(150);//set transparency of text frame
+        //frame.getBackground().setAlpha(150);//set transparency of text frame
         nameframe = (View) findViewById(R.id.nameframe);
         //nameframe.getBackground().setAlpha(150);
 
@@ -131,8 +133,14 @@ public class GameActivity extends Activity implements View.OnClickListener {
         //testLay.setBackgroundResource(getDrawable(GameActivity.this, "beach"));
 
         //theme.start();
+        // Present Object
+        imgObj.setImageResource(getDrawable(GameActivity.this, "inventory"));
+        //TESTING
+        imgObj.setVisibility(View.GONE);
 
+        //FLAG TESTINg
 
+        // Inventory Object
         imgBtn.setImageResource(getDrawable(GameActivity.this, "inventory"));
 
 

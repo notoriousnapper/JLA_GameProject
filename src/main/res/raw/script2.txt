@@ -1,7 +1,7 @@
 $$1,1,1
 _m:openingtitles
 _s:ding	
-_bgImg:beach
+_bgImg:annietest1
 _imgL:mia1
 _imgR:
 _imgC:mia1
