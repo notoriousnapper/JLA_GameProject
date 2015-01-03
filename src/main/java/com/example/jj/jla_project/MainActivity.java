@@ -24,9 +24,12 @@ public class MainActivity extends Activity {
 
         final MediaPlayer sound = MediaPlayer.create(MainActivity.this,
                 getAudio(MainActivity.this, "menuselect1"));
+        final MediaPlayer theme = MediaPlayer.create(MainActivity.this,
+                getAudio(MainActivity.this, "openingtitles"));
 
         //handler.postDelayed(runnable, 100);
 
+        theme.start();
         ImageView test = (ImageView) findViewById(R.id.androidView);
         test.setImageResource(getDrawable(MainActivity.this, "coolsymbol"));
         Button startBtn = (Button) findViewById(R.id.startBtn);
@@ -51,6 +54,9 @@ public class MainActivity extends Activity {
                     }
                 }, 200);
 
+
+                // Stop OpeningTitle
+                theme.stop();
 
             }
         });

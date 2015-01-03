@@ -29,8 +29,11 @@ public class SceneSingleton {
     final String ANIM_IMGR = "_animIMGR:";
     final String ANIM_IMGC = "_animIMGC:";
 
+
     final String SYM_MARK = "MARK";
     final String SYM_RESET = "RESET";
+    final String SYM_OVERLAY ="_overlay:"; //Either TRUE or FALSE
+    final String SYM_FULLTEXT ="_fulltxt";
 
 
     BufferedReader bufferPtr;
@@ -45,6 +48,7 @@ public class SceneSingleton {
     private String imgR;          // _imgR:
     private String imgC;          // _imgC:
     private String text;          // _txt:
+    private String fulltext;
     private boolean btnExists = false;
     private String btnTxt[];
     private String btnAdd[];
@@ -57,6 +61,7 @@ public class SceneSingleton {
     private String currentLine;
     private boolean mark;
     private boolean reset;
+    private boolean overLay = false;
 
 
     private volatile static SceneSingleton uniqueInstance = null;
@@ -91,7 +96,21 @@ public class SceneSingleton {
             currentLine = bufferPtr.readLine(); // Requires space between all segments
             //System.err.println("2nd CurrentLine is " + this.currentLine);
 
+            if (currentLine.contains(SYM_OVERLAY)) {
 
+                System.err.println("currentline is" + getcurrentLine());
+                String temp = substringAfter(currentLine, SYM_OVERLAY);
+                overLay = temp.contains("TRUE"); // Will be false otherwise
+                System.err.println("OVERLAY IS " + this.overLay);
+                currentLine = bufferPtr.readLine();
+            }
+            if (currentLine.contains(SYM_FULLTEXT)) {
+
+                System.err.println("currentline is" + getcurrentLine());
+                fulltext = substringAfter(currentLine, SYM_FULLTEXT);
+                System.err.println("FULLTEXT IS " + this.fulltext);
+                currentLine = bufferPtr.readLine();
+            }
             if (currentLine.contains(SYM_TM)) {
 
                 System.err.println("currentline is" + getcurrentLine());
@@ -336,6 +355,9 @@ public class SceneSingleton {
     public String gettext() {
         return this.text;
     }
+    public String getfulltext() {
+        return this.fulltext;
+    }
 
     public String getbtnAdd(int position) // starts from 0
     {
@@ -374,6 +396,7 @@ public class SceneSingleton {
     }
     public boolean getMark(){ return this.mark;}
     public boolean getReset(){ return this.reset;}
+    public boolean getOverLay(){ return this.overLay;}
     public BufferedReader getBufferPtr(){return this.bufferPtr;}
 
 
@@ -395,6 +418,11 @@ public class SceneSingleton {
     public void setNameLeft(String input){this.nameTxtLeft = input;}
     public void setMark(boolean b) {this.mark = b;}
     public void setReset(boolean b) {this.reset = b;}
+    public void setOverLay(boolean b) {this.overLay = b;}
+    public void settext(String str) {
+        this.text = str;}
+    public void setfulltext(String str) {
+        this.fulltext = str;}
     /*
      * Helper Methods for String Parsing
      *

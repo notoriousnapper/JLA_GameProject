@@ -21,7 +21,7 @@ public class Typewriter extends TextView {
 
     public Typewriter(Context context) {
         super(context);
-        mtypeSound = MediaPlayer.create(context, R.raw.typewriter);
+        mtypeSound = MediaPlayer.create(context, R.raw.typeshort);
     }
 
     public Typewriter(Context context, AttributeSet attrs) {

@@ -38,19 +38,22 @@
                 android:id="@+id/imageLeft"
                 android:contentDescription="image"
                 android:layout_gravity="center|left"
-                android:paddingRight="100dp"
+                android:paddingRight="1dp"
                 android:paddingLeft="100dp"
                 android:layout_weight="2"
                 android:adjustViewBounds="false" />
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="1200dp"
                 android:layout_height="fill_parent"
                 android:id="@+id/imageCenter"
-                android:paddingLeft="100dp"
-                android:paddingRight="100dp"
-                android:layout_gravity="center"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingBottom="1dp"
+                android:paddingTop="30dp"
+                android:layout_gravity="center|bottom"
                 android:layout_weight="2"
+                android:scaleType="fitXY"
                 />
 
             <ImageView
@@ -58,7 +61,7 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/imageRight"
                 android:layout_gravity="center|right"
-                android:paddingLeft="100dp"
+                android:paddingLeft="1dp"
                 android:paddingRight="100dp"
                 android:accessibilityLiveRegion="1"
                 android:layout_weight="2"
@@ -151,7 +154,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="156dp"
-                android:id="@+id/frameLayout"
+                android:id="@+id/mainboxframe"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -197,7 +200,7 @@
                     android:textSize="25dp"
                     android:typeface="serif"
                     android:textColor="#ffffffff"
-                    android:layout_gravity="center|bottom"
+                    android:layout_gravity="left|center_vertical"
                     android:layout_above="@+id/imageLeft"
                     android:gravity="bottom" />
 
@@ -226,7 +229,7 @@
 
                 android:layout_marginLeft="152dp"
                 android:layout_marginStart="152dp"
-                android:layout_above="@+id/frameLayout"
+                android:layout_above="@+id/mainboxframe"
                 android:visibility="invisible"
                 android:paddingLeft="55dp"
                 android:paddingTop="4dp"
@@ -237,7 +240,7 @@
                 android:layout_height="50dp"
                 class="android.support.v7.internal.widget.FitWindowsLinearLayout"
                 android:id="@+id/nameframe"
-                android:layout_above="@+id/frameLayout"
+                android:layout_above="@+id/mainboxframe"
                 android:layout_alignLeft="@+id/nameTxt"
                 android:layout_alignStart="@+id/nameTxt"
                 android:layout_alignTop="@+id/nameTxt"
@@ -248,6 +251,19 @@
                 android:paddingTop="3dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="invisible" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/frontFrame">
+
+                <TextView
+                    android:layout_width="265dp"
+                    android:layout_height="142dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/fullTextView"
+                    android:layout_gravity="center_horizontal|top" />
+            </FrameLayout>
 
         </RelativeLayout>
 

@@ -3,139 +3,149 @@
 
 
 $$1,1,1
-_m:pwcut
+_m:nighttime1
 _s:
-_bgImg:basementstorage
+_bgImg:black
 _imgL:
 _imgR:
 _imgC:
-_namel:Angelica
-_animBG:IN
-_txt: I was looking in the basement, when all of a sudden...
-
+_animBG:
+_animBG:
+_txt: You've received a letter from a mysterious stranger.
 
 $$1,2,1
-_m:openingtitles
+_m:
 _s:
-_bgImg:basementstorage
+_bgImg:black
 _imgL:
 _imgR:
-_imgC:apollocenter1
+_imgC:
 _animBG:
 _animIMGL:
-_txt:
+_txt:They claim to be interested in your services.
+
 
 
 $$1,3,1
-_m:pwcut
-_s:ding
-_bgImg:basementstorage
+_m:
+_s:
+_bgImg:black
 _imgL:
 _imgR:
-_imgC:apollocenter1
-_namel:Apollo
-_animBG:SHK
+_imgC:
+_animBG:
 _animIMGL:
-_animIMGC:IN
-_txt:Long time no see, Angelica.
+_animIMGC:
+_txt:You are a junior detective of Scotland Yard, with no prior cases under your belt.
 
 
 $$1,4,1
-_m:pwcut
-_s:ding
-_bgImg:basementstorage
-_imgL:
-_imgR:
-_imgC:apollocenter1
-_namel:Angelica
-_animIMGL:
-_txt:A-Apollo!  Where'd you come from?
-
-$$1,5,1
-_m:pwcut
-_s:typewriter
-_bgImg:basementstorage
-_imgL:
-_imgR:
-_imgC:apollocenter1
-_namel:Apollo
-_txt:Happy to see you too.
-_jmp: &2,1,1
-
-$$2,1,1
-_m:thundersound
-_s:
-_bgImg:basementstorage
-_imgL:
-_imgR:
-_imgC:apollocenter1
-_animBG:SHK
-_txt:
-
-$$2,2,1
-_m:pwcut
-_s:
-_bgImg:basementstorage
-_imgL:
-_imgR:
-_imgC:apollocenter1
-_namel:Apollo
-_animIMGL:
-_txt:Oh man... I hate Thunderstorms.  I'm out of here!
-_jmp:&2,4,1
-
-
-$$2,4,1
-_m:pwcut
-_s:ding
-_bgImg:basementstorage
-_imgL:
-_imgR:
-_imgC:apollocenter1
-_namel:Angelica
-_txt:Wait!
-_btn:2,4,2&2,8,1&3,4,1
-_^:OBJECTION! You coward_Go ahead, you won't be missed_MWAHAHAHAHA
-
-$$2,4,2
-_m:apollotakethat
-_s:ding
-_bgImg:black
-_imgL:apollocenter1
-_imgR:
-_imgC:
-_txt:You're a coward! Get Out of here
-
-$$2,5,2
 _m:
 _s:ding
 _bgImg:black
 _imgL:
 _imgR:
 _imgC:
-_animIMGL:OUT
-_txt:
+_animIMGL:
+_txt:Eager for a chance to show your department what you're made of, you agree to make a visit to this anonymous commissioner.
+
+
+$$1,5,1
+_m:
+_s:
+_bgImg:forest2
+_imgL:
+_imgR:
+_imgC:
+_animBG:IN
+_txt:You've arrived at a forest that leads to the mysterious castle written in the mysterious letter, and are about to set off when all of a sudden...
+_jmp: &2,1,1
+
+$$2,1,1
+_m:ding
+_s:
+_bgImg:forest2
+_imgL:
+_imgR:
+_imgC:lenacomp2
+_namel:Angelica
+_animBG:SHK
+_txt:WHOA!
+
+$$2,2,1
+_m:openingtitles
+_s:
+_bgImg:forest1
+_imgL:
+_imgR:
+_imgC:lenacomp1
+_namel:???
+_animIMGL:
+_txt:I'm sorry if I have scared you.
+
+
+$$2,3,1
+_m:
+_s:
+_bgImg:forest1
+_imgL:
+_imgR:
+_imgC:lena2
+_namel:???
+_txt:I can't seem to remember what I was doing here...
+
+$$2,4,1
+_m:
+_s:
+_bgImg:forest1
+_imgL:
+_imgR:
+_imgC:lena2
+_namel:Angelica
+_txt:She seems to be a resident of the castle.  What should I do?
+_btn:2,4,2&2,8,1&3,4,1
+_^:Arrest her on suspicion of murder!_Ask her nicely._Ignore her and keep on going
+
+$$2,4,2
+_m:apollotakethat
+_s:ding
+_bgImg:forest2
+_imgL:
+_imgR:
+_imgC:lena2
+_namel:Angelica
+_txt:You're under arrest for suspicion of murder!!!
+
+$$2,5,2
+_m:
+_s:
+_bgImg:forest2
+_imgL:
+_imgR:
+_imgC:lenacomp1
+_namel:???
+_animIMGL:
+_txt:Hrmph. 
 _jmp:&2,6,2
 
 
 $$2,6,2
-_m:ding
+_m:
 _s:ding
-_bgImg:basementstorage
-_animBG:IN
+_bgImg:forest1
 _imgL:
 _imgR:
 _imgC:
 _txt:...
 
 $$2,7,2
-_m:pwcut
+_m:nighttime2
 _s:ding
-_bgImg:basementstorage
+_bgImg:forest2
 _imgL:
 _imgR:
-_imgC:
-_txt:Now I'm alone again.
+_imgC:lena2
+_txt:Goodbye.
 
 $$2,8,2
 _m:

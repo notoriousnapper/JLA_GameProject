@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import android.view.animation.AnimationUtils;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +40,10 @@ public class GameActivity extends Activity implements View.OnClickListener {
     private static final int maxNumPerLine = 65;
     private CharSequence mText;
     private int mIndex, mIndex2, mIndex3;
+
+    private CharSequence mTextII;
+    private int mIndexII, mIndexII2;
+
     private long mDelay = 45;  //default delay for text
     private MediaPlayer mTypeSound;
     private MediaPlayer sound;
@@ -51,6 +57,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     TextView text1;
     TextView text2;
     TextView nameTxt;
+    TextView fullTextView;
 
 
     ImageView imgObj;
@@ -65,6 +72,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     ImageView imgBt;
     LinearLayout testLay;
     FrameLayout frameCentral;
+    FrameLayout frontFrame;
 
     final String SYM_FADEIN = "IN";
     final String SYM_FADEOUT = "OUT";
@@ -112,6 +120,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         background.setImageResource(R.drawable.black);
         text1 = (TextView) findViewById(R.id.editText);
         text2 = (TextView) findViewById(R.id.editText2);
+        fullTextView = (TextView) findViewById(R.id.fullTextView);
         nameTxt = (TextView) findViewById(R.id.nameTxt);
 
         mTypeSound = MediaPlayer.create(text1.getContext(), R.raw.typeshort);
@@ -129,8 +138,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         // USE THIS
         testLay = (LinearLayout) findViewById(R.id.testLinear);
         frameCentral = (FrameLayout) findViewById(R.id.frameCentral);
-
-        //testLay.setBackgroundResource(getDrawable(GameActivity.this, "beach"));
+        //frontFrame = (FrameLayout) findViewById(R.id.frontFrame);
 
         //theme.start();
         // Present Object
@@ -144,10 +152,15 @@ public class GameActivity extends Activity implements View.OnClickListener {
         imgBtn.setImageResource(getDrawable(GameActivity.this, "inventory"));
 
 
-        animateText("It was a cold, rainy day.");
+        //fullTextView.setText("WAZZAT");
+        //fullTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, android.R.anim.fade_in));
+
+
+
+        //animateText("It was a cold, rainy day.");
 
         try {
-            inputStream = getResources().openRawResource(R.raw.scriptest2);
+            inputStream = getResources().openRawResource(R.raw.testingtesting);
             buffr = new BufferedReader(new InputStreamReader(inputStream));
             currentLine = buffr.readLine();
             model.setcurrentTuple(currentTuple);
@@ -239,6 +252,29 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
         }
     };
+    private Runnable characterAdderII = new Runnable() {
+        @Override
+        public void run() {
+            if (mIndexII <= mTextII.length()) {
+                fullTextView.setText(mText.subSequence(0, mIndex++));
+                mIndexII2++;
+            }
+            /*else {
+                text2.setText(mText.subSequence(mIndex - 1, mIndex2++));
+                lineNum++;
+
+            }
+            */
+            mTypeSound.start();
+
+            if (mIndex <= mText.length() && mIndex2 <= mText.length()) {
+                mHandler.postDelayed(characterAdder, mDelay);
+            } else {
+                notTyping = true;//allow tap if string finish typing
+            }
+
+        }
+    };
 
     //typewriting text
     public void animateText(CharSequence text) {
@@ -250,13 +286,25 @@ public class GameActivity extends Activity implements View.OnClickListener {
         text2.setText("");
 
         // Set clacking sound
-
-
         mHandler.removeCallbacks(characterAdder);
-
         mHandler.postDelayed(characterAdder, mDelay);
 
     }
+
+    public void animateOtherText(CharSequence text) {
+        mTextII = text;
+        mIndexII = 0;
+        mIndexII2 = 0;
+        notTyping = false;//no tapping if string not finished typing
+        fullTextView.setText("");
+        //text2.setText("");
+
+        // Set clacking sound
+        mHandler.removeCallbacks(characterAdder);
+        mHandler.postDelayed(characterAdder, mDelay);
+
+    }
+
 
 
     public void setCharacterDelay(long millis) {
@@ -279,7 +327,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         boolean USES_BTN = model.getbtnExists();
         boolean TAPCLICK = clickedView == R.id.RLLayout;
 
-
         // If Button is tapped, or if tap button is tapped while buttons are not used
         // MAY BE REDUNDANT, BUT MIGHT CHANGE LATER
         //if (((TAPCLICK) && (!USES_BTN))
@@ -288,6 +335,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 (USES_BTN) && (!TAPCLICK))
 
         {
+
+
+            //TESTING
+
+            //fullTextView.setText("MWHAHAHAHAH");
 
             if ((TAPCLICK) && (!USES_BTN) || (!TAPCLICK)) {
 
@@ -320,7 +372,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     btn_ans1.setVisibility(View.GONE);
                     btn_ans2.setVisibility(View.GONE);
                     btn_ans3.setVisibility(View.GONE);
-
                     // model.setbtnExists(false);
                 }
 
@@ -349,6 +400,36 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 try {
                     // BACKGROUND IMAGE SETUP
 
+                    try {
+                        //if (model.getOverLay()) {
+                            //layerImg.setVisibility(View.VISIBLE);
+                        if (false)
+                        {
+                            FrameLayout mainbox = (FrameLayout)findViewById(R.id.mainboxframe);
+                            // Reset OverLay
+                            //layerImg.setAlpha((float) 300);
+                            frontFrame.setVisibility(View.VISIBLE);
+                            //frontFrame.setBackgroundResource(R.drawable.black);
+                            //frontFrame.getBackground().setAlpha(200);
+                            fullTextView.setText("YO MAMA");
+                            //frontFrame.
+                            //frontFrame.setBackground((float) 300);
+                            model.setOverLay(false);
+                            //MediaPlayer sound = MediaPlayer.create(GameActivity.this, getAudio(GameActivity.this, "menuselect1"));
+
+
+                            // Set boxes to front
+                            //mainbox.bringToFront();
+
+
+                        } else {
+                            frontFrame.setVisibility(View.GONE);
+                        }
+                    }
+
+                catch(NullPointerException e) {
+                e.printStackTrace();}
+
 
                     testLay.setBackgroundResource(getDrawable(GameActivity.this, model.getbackgroundImg()));
 
@@ -371,16 +452,12 @@ public class GameActivity extends Activity implements View.OnClickListener {
                                 shake(testLay);
                                 model.setBGAnimation(null);
                             }
-
-
-
-
                     }
 
                     try {
 
                         // THEME SETUP
-                        if (model.getthemeMusic()!=null) {
+                        if (model.getthemeMusic()!=null&&(!model.getthemeMusic().contains(""))) {
 
                             int test = getApplicationContext().getResources().getIdentifier
                                     (model.getthemeMusic(),
@@ -489,6 +566,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
                                 imageC.setVisibility(View.INVISIBLE);
                                 fadeInAndShowImage(imageC);
 
+                                imageC.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
                                 //Reset
                                 model.setIMGCAnimation(null);
 
@@ -534,6 +614,14 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         frame.setVisibility(View.VISIBLE);
                         text1.setVisibility(View.VISIBLE);
                         animateText(model.gettext());
+
+                        /* TESTING */
+                        if (model.getfulltext()!=null) {
+                            fullTextView.setVisibility(View.VISIBLE);
+                            fullTextView.setText(model.getfulltext());
+                            model.setfulltext(null);
+                        }
+
                         mTypeSound.reset();
                         mTypeSound.start();
                     } else {
@@ -541,6 +629,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         text1.setVisibility(View.INVISIBLE);
                         nameframe.setVisibility(View.INVISIBLE);
                         nameTxt.setVisibility(View.INVISIBLE);
+
+                        model.settext(null);
 
                     }
                     // Setting them off each time for now (Logic above works, so this is quick fix)
